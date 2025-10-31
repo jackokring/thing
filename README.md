@@ -27,3 +27,10 @@ in your Flatpack install.
 
 You don't need to login to launch from within IntelliJ IDEA,
 but by default it doesn't access your worlds.
+
+With the `Prism Launcher` the following is working for me as the links.
+
+```bash
+ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.21.10.Fabric/minecraft/saves ~/IdeaProjects/thing/run
+ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.21.10.Fabric/minecraft/mods ~/IdeaProjects/thing/run
+```
