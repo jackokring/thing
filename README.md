@@ -52,6 +52,7 @@ some useful APIs. Some of these are marked dependencies.
 * [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use
 * [`ferritecore`](https://modrinth.com/mod/ferrite-core) - Some Java memory optimizations
 * [`Jade`](https://modrinth.com/mod/jade) - Block/Entity ID on HUD
+* [`lithium`](https://modrinth.com/mod/lithium) - Various CPU optimizations
 * [`modmenu`](https://modrinth.com/mod/modmenu) - Mod configuration menus plus **API**
 * [`placeholder-api`](https://modrinth.com/mod/placeholder-api) - Useful string macros **API** for mods
 * [`Scribble`](https://modrinth.com/mod/scribble) - Easier book editing interface
