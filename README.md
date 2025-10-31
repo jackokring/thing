@@ -40,12 +40,13 @@ ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.
 ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.21.10.Fabric/minecraft/mods ~/IdeaProjects/thing/run
 ```
 
-## Other Mods
+## Other Utility or Dependency Mods
 
 Here are some other mods used while developing `Thing` which also helps with not duplicating features and with
 some useful APIs. Some of these are marked dependencies.
 
 * [`appleskin`](https://modrinth.com/mod/appleskin) - Food improvement HUD
+* [`BetterF3`](https://modrinth.com/mod/betterf3) - Nice `F3` key improvement
 * [`chat_heads`](https://modrinth.com/mod/chat-heads) - In chat player heads
 * [`cloth-config`](https://modrinth.com/mod/cloth-config) - Config menu **API**
 * [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use
@@ -53,5 +54,14 @@ some useful APIs. Some of these are marked dependencies.
 * [`Jade`](https://modrinth.com/mod/jade) - Block/Entity ID on HUD
 * [`modmenu`](https://modrinth.com/mod/modmenu) - Mod configuration menus plus **API**
 * [`placeholder-api`](https://modrinth.com/mod/placeholder-api) - Useful string macros **API** for mods
+* [`Scribble`](https://modrinth.com/mod/scribble) - Easier book editing interface
 
-## 
+## Other Change Game Mechanics Mods
+
+These mods are in a separate list as they do change some game mechanic and not just the UI. It could be
+said that a UI change does alter timing of events, but this is like saying pause is ruining games.
+
+* [`craftable-nametag`](https://modrinth.com/datapack/craftable-nametag) - Useful to name things in game
+
+## Other Links
+
