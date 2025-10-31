@@ -43,12 +43,13 @@ ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.
 ## Other Mods
 
 Here are some other mods used while developing `Thing` which also helps with not duplicating features and with
-some useful APIs. Some of these ar marked dependencies.
+some useful APIs. Some of these are marked dependencies.
 
 * [`appleskin`](https://modrinth.com/mod/appleskin) - Food improvement HUD
 * [`chat_heads`](https://modrinth.com/mod/chat-heads) - In chat player heads
 * [`cloth-config`](https://modrinth.com/mod/cloth-config) - Config menu **API**
 * [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use
+* [`ferritecore`](https://modrinth.com/mod/ferrite-core) - Some Java memory optimizations
 * [`Jade`](https://modrinth.com/mod/jade) - Block/Entity ID on HUD
 * [`modmenu`](https://modrinth.com/mod/modmenu) - Mod configuration menus plus **API**
 * [`placeholder-api`](https://modrinth.com/mod/placeholder-api) - Useful string macros **API** for mods
