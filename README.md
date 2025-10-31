@@ -1,17 +1,20 @@
 # Thing Minecraft Module 1.21.10
 
-A Minecraft Fabric Mod (Open JDK Java 21 recommended)
+A Minecraft Fabric Mod (Open JDK Java 21 recommended). Getting back into modding Minecraft is fun.
+I wonder how the redundancy of `yarn` will go (has gone) now that Mojang has commited to release the source
+symbols.
 
 ## Features
 
-* Some convenience documentation
+* Some convenience documentation for general modding
 
 ## Easy Development
 
-Apart from `ctrl` + `E` the following might be nice.
+Apart from `ctrl` + `E`, the fabulous finder of all things including code bookmarks, the following might help to test
+other mods with this one. To build against them they have to be added to the projects external libraries.
 
-Linking the launch to your saves after the first run of `M̀inecraft Client` before you
-save anything or install any other mods. The first run makes `run/`.
+Linking the IDE launcher to your saves after the first run of `M̀inecraft Client` before you
+save anything might be useful. The first launch makes `run/`.
 
 ```bash
 rm -rf ~/IdeaProjects/thing/run/saves
@@ -26,11 +29,28 @@ already installed the fabric mod loader to make `mods/` exist
 in your Flatpack install.
 
 You don't need to login to launch from within IntelliJ IDEA,
-but by default it doesn't access your worlds.
+but by default it doesn't access your saved worlds.
 
-With the `Prism Launcher` the following is working for me as the links.
+I tried a new launcher, `Prism Launcher`, and the following is working for me, as links, to use instead
+of the above symlinks. Be aware that deleting the other symlinks requires the `unlink` CLI command. Don't delete
+the folders that contain your saves and mods!
 
 ```bash
 ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.21.10.Fabric/minecraft/saves ~/IdeaProjects/thing/run
 ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.21.10.Fabric/minecraft/mods ~/IdeaProjects/thing/run
 ```
+
+## Other Mods
+
+Here are some other mods used while developing `Thing` which also helps with not duplicating features and with
+some useful APIs. Some of these ar marked dependencies.
+
+* [`appleskin`](https://modrinth.com/mod/appleskin) - Food improvement HUD
+* [`chat_heads`](https://modrinth.com/mod/chat-heads) - In chat player heads
+* [`cloth-config`](https://modrinth.com/mod/cloth-config) - Config menu **API**
+* [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use
+* [`Jade`](https://modrinth.com/mod/jade) - Block/Entity ID on HUD
+* [`modmenu`](https://modrinth.com/mod/modmenu) - Mod configuration menus plus **API**
+* [`placeholder-api`](https://modrinth.com/mod/placeholder-api) - Useful string macros **API** for mods
+
+## 
