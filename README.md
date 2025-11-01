@@ -49,6 +49,8 @@ some useful APIs. Some of these are marked dependencies.
 * [`BetterF3`](https://modrinth.com/mod/betterf3) - Nice `F3` key improvement
 * [`chat_heads`](https://modrinth.com/mod/chat-heads) - In chat player heads
 * [`cloth-config`](https://modrinth.com/mod/cloth-config) - Config menu **API** (Added as dependency)
+* [`eiv-fabric`](https://modrinth.com/mod/eiv) - Extended ItemView for finding resource recipes **API**
+  * No designs to make other craft formats, so **API** not used yet 
 * [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use (Dependency, but uses mod folder)
 * [`ferritecore`](https://modrinth.com/mod/ferrite-core) - Some Java memory optimizations
 * [`Jade`](https://modrinth.com/mod/jade) - Block/Entity ID on HUD
