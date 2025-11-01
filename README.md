@@ -56,6 +56,7 @@ some useful APIs. Some of these are marked dependencies.
 * [`modmenu`](https://modrinth.com/mod/modmenu) - Mod configuration menus plus **API** (Added as dependency)
 * [`placeholder-api`](https://modrinth.com/mod/placeholder-api) - Useful string macros **API** (Added as dependency)
 * [`Scribble`](https://modrinth.com/mod/scribble) - Easier book editing interface
+* [`StackDeobfuscatorFabric`](https://modrinth.com/mod/stackdeobf) - For better stack traces on errors
 
 ## Other Change Game Mechanics Mods
 
