@@ -11,7 +11,7 @@ symbols.
 ## Easy Development
 
 Apart from `ctrl` + `E`, the fabulous finder of all things including code bookmarks, the following might help to test
-other mods with this one. To build against them they have to be added to the projects external libraries.
+other mods with this one. To build against them, they have to be added to the projects external libraries.
 
 Linking the IDE launcher to your saves after the first run of `M̀inecraft Client` before you
 save anything might be useful. The first launch makes `run/`.
@@ -28,7 +28,7 @@ access to worlds you use to test. This of course assumes you've
 already installed the fabric mod loader to make `mods/` exist
 in your Flatpack install.
 
-You don't need to login to launch from within IntelliJ IDEA,
+You don't need to log in to launch from within IntelliJ IDEA,
 but by default it doesn't access your saved worlds.
 
 I tried a new launcher, `Prism Launcher`, and the following is working for me, as links, to use instead
@@ -48,13 +48,13 @@ some useful APIs. Some of these are marked dependencies.
 * [`appleskin`](https://modrinth.com/mod/appleskin) - Food improvement HUD
 * [`BetterF3`](https://modrinth.com/mod/betterf3) - Nice `F3` key improvement
 * [`chat_heads`](https://modrinth.com/mod/chat-heads) - In chat player heads
-* [`cloth-config`](https://modrinth.com/mod/cloth-config) - Config menu **API**
-* [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use
+* [`cloth-config`](https://modrinth.com/mod/cloth-config) - Config menu **API** (Added as dependency)
+* [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use (Dependency, but uses mod folder)
 * [`ferritecore`](https://modrinth.com/mod/ferrite-core) - Some Java memory optimizations
 * [`Jade`](https://modrinth.com/mod/jade) - Block/Entity ID on HUD
 * [`lithium`](https://modrinth.com/mod/lithium) - Various CPU optimizations
-* [`modmenu`](https://modrinth.com/mod/modmenu) - Mod configuration menus plus **API**
-* [`placeholder-api`](https://modrinth.com/mod/placeholder-api) - Useful string macros **API** for mods
+* [`modmenu`](https://modrinth.com/mod/modmenu) - Mod configuration menus plus **API** (Added as dependency)
+* [`placeholder-api`](https://modrinth.com/mod/placeholder-api) - Useful string macros **API** (Added as dependency)
 * [`Scribble`](https://modrinth.com/mod/scribble) - Easier book editing interface
 
 ## Other Change Game Mechanics Mods
