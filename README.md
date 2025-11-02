@@ -90,7 +90,7 @@ guy. I'd likely use such a thing for some mod AI experimentation anyway.
 ### Project Related
 
 * [`Javadocs`](https://jackokring.github.io/thing/) - HTML javadocs (manual gradle build)
-  * Setup using a github pages custom action (static build) and altering the `path:` to `./build/docs/javadoc`
+  * Setup using a GitHub pages custom action (static build) and altering the `path:` to `./build/docs/javadoc`
 * [`Jars`](build/libs) - Here are `.jar` files (manual gradle build)
   * You'll have to click tro select, and then download the raw `.jar`
 
