@@ -32,7 +32,7 @@ in your Flatpack install.
 You don't need to log in to launch from within IntelliJ IDEA,
 but by default it doesn't access your saved worlds.
 
-## Prism Launcher
+### Prism Launcher
 
 I tried a new launcher, `Prism Launcher`, and the following is working for me, as links, to use instead
 of the above symlinks. Be aware that deleting symlinks requires the `unlink` CLI command. Don't delete
@@ -44,6 +44,12 @@ ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.
 rm -rf ~/IdeaProjects/thing/run/mods
 ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.21.10.Fabric/minecraft/mods ~/IdeaProjects/thing/run
 ```
+
+### `Data Generation` Run Configuration
+
+Although at first it would tend to work by the `Data Generation` configuration, it does fail as soon as mod
+dependencies happen. To fix it you have to edit the run configuration and change the working directory to be the
+same as the `Minecraft Client`'s run configuration working directory. Then it actually does work with **API** mods.
 
 ## Other Utility or Dependency Mods
 
