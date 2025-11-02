@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"uk.co.kring.thing.mixin","c":"ExampleMixin","l":"ExampleMixin()","u":"%3Cinit%3E()"},{"p":"uk.co.kring.thing","c":"Thing","l":"LOGGER"},{"p":"uk.co.kring.thing","c":"Thing","l":"MOD_ID"},{"p":"uk.co.kring.thing","c":"Thing","l":"onInitialize()"},{"p":"uk.co.kring.thing","c":"Thing","l":"Thing()","u":"%3Cinit%3E()"}];updateSearchResults();

@@ -1,7 +1,13 @@
 # gradle
 
 .gradle/
-build/
+build/**
+# javadoc (gradle task to update)
+!build/docs/
+!build/docs/**
+# jar (gradle task to update)
+!build/libs/
+!build/libs/**
 out/
 classes/
 
@@ -31,6 +37,7 @@ bin/
 # fabric
 
 run/
+
 
 # java
 
