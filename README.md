@@ -7,6 +7,7 @@ symbols.
 ## Features
 
 * Some convenience documentation for general modding
+* Some mod lists to maybe work as a modpack
 
 ## Easy Development
 
@@ -31,6 +32,8 @@ in your Flatpack install.
 You don't need to log in to launch from within IntelliJ IDEA,
 but by default it doesn't access your saved worlds.
 
+## Prism Launcher
+
 I tried a new launcher, `Prism Launcher`, and the following is working for me, as links, to use instead
 of the above symlinks. Be aware that deleting the other symlinks requires the `unlink` CLI command. Don't delete
 the folders that contain your saves and mods!
@@ -45,14 +48,18 @@ ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.
 Here are some other mods used while developing `Thing` which also helps with not duplicating features and with
 some useful APIs. Some of these are marked dependencies.
 
+So for **2025** there's these:
+
 * [`appleskin`](https://modrinth.com/mod/appleskin) - Food improvement HUD
 * [`BetterF3`](https://modrinth.com/mod/betterf3) - Nice `F3` key improvement
 * [`chat_heads`](https://modrinth.com/mod/chat-heads) - In chat player heads
 * [`cloth-config`](https://modrinth.com/mod/cloth-config) - Config menu **API** (Added as dependency)
+* [`dynamic-fps`](https://modrinth.com/mod/dynamic-fps) - Resource saver (client)
+  * Not really a graphics mod for me, but for listening to music instead of sleeping for example
 * [`easyauth`](https://modrinth.com/mod/easyauth) - Server authentication plugin (Only servers)
 * [`eiv-fabric`](https://modrinth.com/mod/eiv) - Extended ItemView for finding resource recipes **API**
   * No designs to make other craft formats, so **API** not used yet 
-* [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use (Dependency, but uses mod folder)
+* [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use (Dependency, but uses mod folder copy)
 * [`ferritecore`](https://modrinth.com/mod/ferrite-core) - Some Java memory optimizations
 * [`Jade`](https://modrinth.com/mod/jade) - Block/Entity ID on HUD
 * [`lithium`](https://modrinth.com/mod/lithium) - Various CPU optimizations
@@ -68,6 +75,13 @@ These mods are in a separate list as they do change some game mechanic and not j
 said that a UI change does alter timing of events, but this is like saying pause is ruining games.
 
 * [`craftable-nametag`](https://modrinth.com/datapack/craftable-nametag) - Useful to name things in game
+
+## Graphical Mods
+
+I'm OK with Vanilla graphics, and since installing `dynamic-fps` the machine works better. Mods of this kind are
+more the personal taste of people, so few if any are included here. Then there's that vibrant visuals thing, and
+it will likely spill into Java Edition. I as of **2025** only have an Intel NUC, so I'm not a melted connector GFX
+guy. I'd likely use such a thing for some mod AI experimentation anyway.
 
 ## Other Links
 
