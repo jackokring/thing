@@ -38,6 +38,9 @@ bin/
 
 run/
 
+# don't publish generated data except in .jar
+
+src/main/generated
 
 # java
 
