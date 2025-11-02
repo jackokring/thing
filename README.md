@@ -35,17 +35,19 @@ but by default it doesn't access your saved worlds.
 ## Prism Launcher
 
 I tried a new launcher, `Prism Launcher`, and the following is working for me, as links, to use instead
-of the above symlinks. Be aware that deleting the other symlinks requires the `unlink` CLI command. Don't delete
+of the above symlinks. Be aware that deleting symlinks requires the `unlink` CLI command. Don't delete
 the folders that contain your saves and mods!
 
 ```bash
+rm -rf ~/IdeaProjects/thing/run/saves
 ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.21.10.Fabric/minecraft/saves ~/IdeaProjects/thing/run
+rm -rf ~/IdeaProjects/thing/run/mods
 ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.21.10.Fabric/minecraft/mods ~/IdeaProjects/thing/run
 ```
 
 ## Other Utility or Dependency Mods
 
-Here are some other mods used while developing `Thing` which also helps with not duplicating features and with
+Here are some other mods used while developing `thing` which also helps with not duplicating features and with
 some useful APIs. Some of these are marked dependencies.
 
 So for **2025** there's these:
