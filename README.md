@@ -83,5 +83,13 @@ more the personal taste of people, so few if any are included here. Then there's
 it will likely spill into Java Edition. I as of **2025** only have an Intel NUC, so I'm not a melted connector GFX
 guy. I'd likely use such a thing for some mod AI experimentation anyway.
 
-## Other Links
+## Other Useful Links
 
+### Project Related
+
+* [`Javadocs`](https://jackokring.github.io/thing/) - HTML javadocs (manual gradle build)
+  * Setup using a github pages custom action (static build) and altering the `path:` to `./build/docs/javadoc`
+* [`Jars`](build/libs) - Here are `.jar` files (manual gradle build)
+  * You'll have to click tro select, and then download the raw `.jar`
+
+### General Modding

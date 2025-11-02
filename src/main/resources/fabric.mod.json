@@ -38,7 +38,23 @@
 		"java": ">=21",
 		"fabric-api": "*",
         "cloth-config": "*",
-        "modmenu": "*",
         "placeholder-api": "*"
-	}
+	},
+    "thing:comment": "modmenu is an option as you might not want to change the default config",
+    "suggests": {
+        "appleskin-fabric": "*",
+        "BetterF3": "*",
+        "chat_heads": "*",
+        "craftable-nametag": "*",
+        "dynamic-fps": "*",
+        "easyauth": "*",
+        "eiv-fabric": "*",
+        "ferritecore": "*",
+        "Jade": "*",
+        "lithium-fabric": "*",
+        "mclogs-fabric": "*",
+        "modmenu": "*",
+        "Scribble": "*",
+        "StackDeobfuscatorFabric": "*"
+    }
 }
