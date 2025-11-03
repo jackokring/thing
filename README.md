@@ -74,7 +74,7 @@ So for **2025** there's these:
 * [`ferritecore`](https://modrinth.com/mod/ferrite-core) - Some Java memory optimizations
 * [`Jade`](https://modrinth.com/mod/jade) - Block/Entity ID on HUD
 * [`lithium`](https://modrinth.com/mod/lithium) - Various CPU optimizations
-* [`mclogs-fabric`](https://modrinth.com/plugin/mclogs) - A logs sharing command `/mclogs` and `/mclogsc` (client)
+* [`mclogs-fabric`](https://modrinth.com/plugin/mclogs) - A logs sharing command `/mclogs` (`/mclogsc` on the client)
 * [`modmenu`](https://modrinth.com/mod/modmenu) - Mod configuration menus plus **API** (Added as dependency)
 * [`placeholder-api`](https://modrinth.com/mod/placeholder-api) - Useful string macros **API** (Added as dependency)
 * [`Scribble`](https://modrinth.com/mod/scribble) - Easier book editing interface
