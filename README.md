@@ -47,14 +47,17 @@ ln -s ~/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/1.
 
 ### `Data Generation` Run Configuration
 
-Although at first it would tend to work by the `Data Generation` configuration, it does fail as soon as mod
+Although at first the `Data Generation` run configuration would work, it does fail as soon as mod
 dependencies happen. To fix it you have to edit the run configuration and change the working directory to be the
 same as the `Minecraft Client`'s run configuration working directory. Then it actually does work with **API** mods.
+So yes, the correct working directory for `Data Generation` is `run/`, as Minecraft is running to generate the
+`src/main/generated` resources.
 
 ## Other Utility or Dependency Mods
 
 Here are some other mods used while developing `thing` which also helps with not duplicating features and with
-some useful APIs. Some of these are marked dependencies.
+some useful APIs. Some of these are marked dependencies. The **API** is locked by version numbers in
+`gradle.properties`. It's where all the choice action happens.
 
 So for **2025** there's these:
 
