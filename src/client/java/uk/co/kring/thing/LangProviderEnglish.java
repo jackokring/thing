@@ -14,7 +14,7 @@ public class LangProviderEnglish extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-        translationBuilder.add(ModItems.CUSTOM_ITEM_GROUP_KEY.getValue(), "Thing's items");
-        translationBuilder.add(ModItems.SUSPICIOUS_SUBSTANCE.getTranslationKey(), "Suspicious substance");
+        translationBuilder.add(ModItems.CUSTOM_ITEM_GROUP_KEY.getValue().toTranslationKey(), "Thing's Items");
+        translationBuilder.add(ModItems.SUSPICIOUS_SUBSTANCE.getTranslationKey(), "Suspicious Substance");
     }
 }
