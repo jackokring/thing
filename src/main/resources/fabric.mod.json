@@ -33,12 +33,12 @@
 		}
 	],
 	"depends": {
-		"fabricloader": "${project.loader_version}",
-		"minecraft": "~${project.minecraft_version}",
-		"java": ">=${project.java_version}",
-		"fabric-api": "${project.fabric_version}",
-        "cloth-config": "${project.cloth_config_version}",
-        "placeholder-api": "${project.placeholder_version}"
+		"fabricloader": "${loader_version}",
+		"minecraft": "${minecraft_version}",
+		"java": "${java_version}",
+		"fabric-api": "${fabric_version}",
+        "cloth-config": "${cloth_config_version}",
+        "placeholder-api": "${placeholder_version}"
     },
     "# modmenu is optional as you might not want to change the config": true,
     "suggests": {
@@ -48,12 +48,12 @@
         "craftable-nametag": "*",
         "dynamic-fps": "*",
         "easyauth": "*",
-        "eiv-fabric": "${project.eiv_version}",
+        "eiv-fabric": "${eiv_version}",
         "ferritecore": "*",
         "Jade": "*",
         "lithium-fabric": "*",
         "mclogs-fabric": "*",
-        "modmenu": "${project.modmenu_version}",
+        "modmenu": "${modmenu_version}",
         "Scribble": "*",
         "StackDeobfuscatorFabric": "*"
     }

@@ -67,7 +67,8 @@ dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    // mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
     // HERE: Changed to use mo0d from run/mods/
@@ -87,12 +88,40 @@ dependencies {
     modCompileOnly "maven.modrinth:eiv:${project.eiv_version}+${project.minecraft_version}"
 }
 
-processResources {
-	inputs.property "version", project.version
+def replaceProps = [
+        loader_version: "${project.loader_version}",
+        minecraft_version: "~${project.minecraft_version}",
+        java_version: ">=${project.java_version}",
+        fabric_version: "${project.fabric_version}",
+        cloth_config_version: "${project.cloth_config_version}",
+        placeholder_version: "${project.placeholder_version}",
+        /* "appleskin-fabric": "*",
+        "BetterF3": "*",
+        "chat_heads": "*",
+        "craftable-nametag": "*",
+        "dynamic-fps": "*",
+        "easyauth": "*", */
+        eiv_version: "${project.eiv_version}",
+        /* "ferritecore": "*",
+        "Jade": "*",
+        "lithium-fabric": "*",
+        "mclogs-fabric": "*", */
+        modmenu_version: "${project.modmenu_version}",
+        /* "Scribble": "*",
+        "StackDeobfuscatorFabric": "*" */
+        version: project.version
+]
 
-	filesMatching("fabric.mod.json") {
-		expand "version": inputs.properties.version
-	}
+processResources {
+	inputs.properties replaceProps
+
+    filesMatching([
+            "fabric.mod.json"
+    ]) {
+		// expand "version": inputs.properties.version
+        expand replaceProps
+
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
