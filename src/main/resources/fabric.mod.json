@@ -23,8 +23,14 @@
 		],
 		"fabric-datagen": [
 			"uk.co.kring.thing.ThingDataGenerator"
-		]
-	},
+		],
+        "eiv": [
+          "uk.co.kring.thing.EivIntegration"
+        ],
+        "modmenu": [
+          "uk.co.kring.thing.MenuIntegration"
+        ]
+    },
 	"mixins": [
 		"thing.mixins.json",
 		{

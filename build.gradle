@@ -76,16 +76,16 @@ dependencies {
 
     // HERE: added dependencies
     // ModMenu API
-    modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
     // Placeholder API
-    modCompileOnly "eu.pb4:placeholder-api:${project.placeholder_version}+${project.minecraft_version}"
+    modImplementation "eu.pb4:placeholder-api:${project.placeholder_version}+${project.minecraft_version}"
 
     // Cloth Config API
-    modCompileOnly "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
+    modClientImplementation "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
 
     // EIV API
-    modCompileOnly "maven.modrinth:eiv:${project.eiv_version}+${project.minecraft_version}"
+    modImplementation "maven.modrinth:eiv:${project.eiv_version}+${project.minecraft_version}"
 }
 
 def replaceProps = [
