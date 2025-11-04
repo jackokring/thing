@@ -8,6 +8,7 @@ symbols.
 
 * Some convenience documentation for general modding
 * Some mod lists to maybe work as a modpack
+* The `Suspicious Substance` (reduce, reuse, recycle)
 
 ## Easy Development
 
