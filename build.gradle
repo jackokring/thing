@@ -109,7 +109,8 @@ def replaceProps = [
         modmenu_version: "${project.modmenu_version}",
         /* "Scribble": "*",
         "StackDeobfuscatorFabric": "*" */
-        version: project.version
+        version: project.version,
+        basename: "${project.archives_base_name}"
 ]
 
 processResources {

@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "thing",
 	"version": "${version}",
-	"name": "thing",
+	"name": "Thing",
 	"description": "A Fabric mod",
 	"authors": [
 		"Simon Jackson"
