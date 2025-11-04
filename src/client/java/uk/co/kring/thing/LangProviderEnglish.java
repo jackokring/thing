@@ -2,6 +2,7 @@ package uk.co.kring.thing;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
@@ -12,8 +13,14 @@ public class LangProviderEnglish extends FabricLanguageProvider {
         super(dataOutput, "en_uk", registryLookup);
     }
 
+    void generateItem(TranslationBuilder builder, Item item, String translation, String tooltip) {
+        builder.add(item.getTranslationKey(), translation);
+        if(tooltip != null)
+            builder.add(item.getTranslationKey() + ".tooltip", tooltip);
+    }
+
     @Override
-    public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
-        translationBuilder.add(ModItems.SUSPICIOUS_SUBSTANCE.getTranslationKey(), "Suspicious Substance");
+    public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder builder) {
+        generateItem(builder, ModItems.SUSPICIOUS_SUBSTANCE, "Suspicious Substance", "A powerful substance");
     }
 }
