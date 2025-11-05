@@ -1,19 +1,18 @@
 package uk.co.kring.thing;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.sound.BlockSoundGroup;
-
 import java.util.function.Function;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class ModBlocks {
-    public static final AbstractBlock.Settings GRASS = AbstractBlock.Settings.create().sounds(BlockSoundGroup.GRASS);
+    public static final BlockBehaviour.Properties GRASS = BlockBehaviour.Properties.of().sound(SoundType.GRASS);
 
     public static final Block SUSPICIOUS_DIRT = register("suspicious_dirt", Block::new, GRASS);
 
@@ -21,21 +20,21 @@ public class ModBlocks {
 
     }
 
-    private static Block register(String name, Function<AbstractBlock.Settings, Block> blockFactory, AbstractBlock.Settings settings) {
+    private static Block register(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties settings) {
         // Create a registry key for the block
-        RegistryKey<Block> blockKey = RegistryKey.of(RegistryKeys.BLOCK, Thing.identify(name));
+        ResourceKey<Block> blockKey = ResourceKey.create(Registries.BLOCK, Thing.identify(name));
         // Create the block instance
-        Block block = blockFactory.apply(settings.registryKey(blockKey));
+        Block block = blockFactory.apply(settings.setId(blockKey));
 
         // Sometimes, you may not want to register an item for the block.
         // Eg: if it's a technical block like `minecraft:moving_piston` or `minecraft:end_gateway`
         // Items need to be registered with a different type of registry key, but the ID
         // can be the same.
-        RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Thing.identify(name));
+        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, Thing.identify(name));
 
-        BlockItem blockItem = new BlockItem(block, new Item.Settings().registryKey(itemKey).useBlockPrefixedTranslationKey());
-        Registry.register(Registries.ITEM, itemKey, blockItem);
+        BlockItem blockItem = new BlockItem(block, new Item.Properties().setId(itemKey).useBlockDescriptionPrefix());
+        Registry.register(BuiltInRegistries.ITEM, itemKey, blockItem);
 
-        return Registry.register(Registries.BLOCK, blockKey, block);
+        return Registry.register(BuiltInRegistries.BLOCK, blockKey, block);
     }
 }

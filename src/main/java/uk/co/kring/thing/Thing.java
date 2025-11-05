@@ -1,16 +1,15 @@
 package uk.co.kring.thing;
 
 import net.fabricmc.api.ModInitializer;
-
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Thing implements ModInitializer {
 	public static final String MOD_ID = "thing";
 
-    public static Identifier identify(String name) {
-        return Identifier.of(MOD_ID, name);
+    public static ResourceLocation identify(String name) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
     }
 
 	// This logger is used to write text to the console and the log file.

@@ -3,59 +3,58 @@ package uk.co.kring.thing;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
-import net.minecraft.component.type.ConsumableComponent;
-import net.minecraft.component.type.ConsumableComponents;
-import net.minecraft.component.type.FoodComponent;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.item.component.Consumables;
+import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.level.ItemLike;
 import java.util.function.Function;
 
 public class ModItems {
     // hey fatty
-    public static final FoodComponent EDIBLE = new FoodComponent.Builder().alwaysEdible().build();
-    public static final ConsumableComponent OH_MY_TUMMY = ConsumableComponents.food()
+    public static final FoodProperties EDIBLE = new FoodProperties.Builder().alwaysEdible().build();
+    public static final Consumable OH_MY_TUMMY = Consumables.defaultFood()
             // The duration is in ticks, 20 ticks = 1 second
-            .consumeEffect(new ApplyEffectsConsumeEffect(new StatusEffectInstance(StatusEffects.POISON,
+            .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.POISON,
                     6 * 20, 1), 1.0f))
             .build();
 
     // all items in the reduce, reuse, recycle mindset
     public static final Item SUSPICIOUS_SUBSTANCE = register(
-            "suspicious_substance", Item::new, new Item.Settings().food(EDIBLE, OH_MY_TUMMY));
+            "suspicious_substance", Item::new, new Item.Properties().food(EDIBLE, OH_MY_TUMMY));
 
     public static void initialize() {
         // Just say no to custom item groups as the botchy big G says
-        compostAndFuel(SUSPICIOUS_SUBSTANCE, 0.1f, 5, ItemGroups.INGREDIENTS);
-        compostAndFuel(ModBlocks.SUSPICIOUS_DIRT, 0.1f * 9, 5 * 9, ItemGroups.NATURAL);
+        compostAndFuel(SUSPICIOUS_SUBSTANCE, 0.1f, 5, CreativeModeTabs.INGREDIENTS);
+        compostAndFuel(ModBlocks.SUSPICIOUS_DIRT, 0.1f * 9, 5 * 9, CreativeModeTabs.NATURAL_BLOCKS);
     }
 
-    private static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {
+    private static Item register(String name, Function<Item.Properties, Item> itemFactory, Item.Properties settings) {
         // Create the item key.
-        RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Thing.identify(name));
+        ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, Thing.identify(name));
 
         // Create the item instance.
-        Item item = itemFactory.apply(settings.registryKey(itemKey));
+        Item item = itemFactory.apply(settings.setId(itemKey));
 
         // Register the item.
-        Registry.register(Registries.ITEM, itemKey, item);
+        Registry.register(BuiltInRegistries.ITEM, itemKey, item);
 
         return item;
     }
 
-    public static void compostAndFuel(ItemConvertible item,
-                                      float compostChance, int fuelSeconds, RegistryKey<ItemGroup> whereGUI) {
+    public static void compostAndFuel(ItemLike item,
+                                      float compostChance, int fuelSeconds, ResourceKey<CreativeModeTab> whereGUI) {
         ItemGroupEvents.modifyEntriesEvent(whereGUI).register(group -> {
-            group.add(item);
+            group.accept(item);
         });
         if(compostChance > 0.0f)
             // Add the suspicious substance to the composting registry with a 30% chance of increasing the composter's level.
