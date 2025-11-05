@@ -28,7 +28,7 @@ public class ThingClient implements ClientModInitializer {
         });
 	}
 
-    HashMap<ItemLike, MutableComponent> tipMap = new HashMap<ItemLike, MutableComponent>();
+    HashMap<ItemLike, MutableComponent> tipMap = new HashMap<>();
 
     public void tipSimple(ItemLike is) {
         tipMap.put(is, Component.translatable(tooltipKey(is)));
