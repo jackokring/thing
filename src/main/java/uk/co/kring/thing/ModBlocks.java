@@ -12,6 +12,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public class ModBlocks {
+    //NEED_TOOL = BlockBehaviour.Properties.of().requiresCorrectToolForDrops();
+
     public static final BlockBehaviour.Properties GRASS = BlockBehaviour.Properties.of().sound(SoundType.GRASS);
 
     public static final Block SUSPICIOUS_DIRT = register("suspicious_dirt", Block::new, GRASS);
