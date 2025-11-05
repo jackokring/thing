@@ -27,6 +27,6 @@ public class LangProviderEnglish extends FabricLanguageProvider {
 
         // Items and Blocks
         generateItem(builder, ModItems.SUSPICIOUS_SUBSTANCE, "Suspicious Substance", "A powerful substance");
-        generateItem(builder, ModBlocks.SUSPICIOUS_DIRT, "Suspicious Dirt", "Very, very Suspicious dirt");
+        generateItem(builder, ModBlocks.SUSPICIOUS_DIRT, "Suspicious Dirt", "Very, very suspicious dirt");
     }
 }
