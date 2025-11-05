@@ -9,6 +9,8 @@ import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.consume.ApplyEffectsConsumeEffect;
 import net.minecraft.registry.Registries;
@@ -29,19 +31,15 @@ public class ModItems {
 
     // all items in the reduce, reuse, recycle mindset
     public static final Item SUSPICIOUS_SUBSTANCE = register(
-            "suspicious_substance", Item::new, new Item.Settings().food(EDIBLE, OH_MY_TUMMY),
-            0.1f, 5);
+            "suspicious_substance", Item::new, new Item.Settings().food(EDIBLE, OH_MY_TUMMY));
 
     public static void initialize() {
         // Just say no to custom item groups as the botchy big G says
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(itemGroup -> {
-            itemGroup.add(SUSPICIOUS_SUBSTANCE);
-            // ...
-        });
+        compostAndFuel(SUSPICIOUS_SUBSTANCE, 0.1f, 5, ItemGroups.INGREDIENTS);
+        compostAndFuel(ModBlocks.SUSPICIOUS_DIRT, 0.1f, 5, ItemGroups.NATURAL);
     }
 
-    public static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings,
-                                float compostChance, int fuelSeconds) {
+    private static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {
         // Create the item key.
         RegistryKey<Item> itemKey = RegistryKey.of(RegistryKeys.ITEM, Thing.identify(name));
 
@@ -51,6 +49,14 @@ public class ModItems {
         // Register the item.
         Registry.register(Registries.ITEM, itemKey, item);
 
+        return item;
+    }
+
+    public static void compostAndFuel(ItemConvertible item,
+                                      float compostChance, int fuelSeconds, RegistryKey<ItemGroup> whereGUI) {
+        ItemGroupEvents.modifyEntriesEvent(whereGUI).register(group -> {
+            group.add(SUSPICIOUS_SUBSTANCE);
+        });
         if(compostChance > 0.0f)
             // Add the suspicious substance to the composting registry with a 30% chance of increasing the composter's level.
             CompostingChanceRegistry.INSTANCE.add(item, compostChance);
@@ -62,6 +68,5 @@ public class ModItems {
             FuelRegistryEvents.BUILD.register((builder, context) ->
                     builder.add(item, fuelSeconds * 20));
 
-        return item;
     }
 }

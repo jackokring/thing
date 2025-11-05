@@ -105,3 +105,7 @@ guy. I'd likely use such a thing for some mod AI experimentation anyway.
   * You'll have to click tro select, and then download the raw `.jar`
 
 ### General Modding
+
+The Mojang/Yarn choice seems to only be Yarn at the moment (2025-11-04) as the Mojang official doesn't seem to find
+all the class imports. Maybe this is some work in progress for the release of obfuscation free code. Maybe Yarn then
+just stabilizes API.

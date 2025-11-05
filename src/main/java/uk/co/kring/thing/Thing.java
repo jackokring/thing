@@ -25,6 +25,10 @@ public class Thing implements ModInitializer {
 		// Proceed with mild caution.
 
 		LOGGER.info("Loading");
+        ModBlocks.initialize();
+        // Blocks first to allow Items to exist, so register some things there
+        // for common groups, compost anf fuel
         ModItems.initialize();
-	}
+
+    }
 }
