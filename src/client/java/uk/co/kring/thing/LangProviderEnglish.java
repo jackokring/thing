@@ -2,7 +2,6 @@ package uk.co.kring.thing;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.registry.RegistryWrapper;
 
@@ -14,8 +13,8 @@ public class LangProviderEnglish extends FabricLanguageProvider {
         super(dataOutput, "en_uk", registryLookup);
     }
 
-    void generateItem(TranslationBuilder builder, Item item, String translation, String tooltip) {
-        builder.add(item.getTranslationKey(), translation);
+    void generateItem(TranslationBuilder builder, ItemConvertible item, String translation, String tooltip) {
+        builder.add(item.asItem().getTranslationKey(), translation);
         if(tooltip != null)
             builder.add(ThingClient.tooltipKey(item), tooltip);
     }
@@ -29,6 +28,6 @@ public class LangProviderEnglish extends FabricLanguageProvider {
 
         // Items and Blocks
         generateItem(builder, ModItems.SUSPICIOUS_SUBSTANCE, "Suspicious Substance", "A powerful substance");
-        generateItem(builder, ModBlocks.SUSPICIOUS_DIRT.asItem(), "Suspicious Dirt", "Very, very Suspicious dirt");
+        generateItem(builder, ModBlocks.SUSPICIOUS_DIRT, "Suspicious Dirt", "Very, very Suspicious dirt");
     }
 }

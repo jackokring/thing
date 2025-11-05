@@ -55,7 +55,7 @@ public class ModItems {
     public static void compostAndFuel(ItemConvertible item,
                                       float compostChance, int fuelSeconds, RegistryKey<ItemGroup> whereGUI) {
         ItemGroupEvents.modifyEntriesEvent(whereGUI).register(group -> {
-            group.add(SUSPICIOUS_SUBSTANCE);
+            group.add(item);
         });
         if(compostChance > 0.0f)
             // Add the suspicious substance to the composting registry with a 30% chance of increasing the composter's level.
