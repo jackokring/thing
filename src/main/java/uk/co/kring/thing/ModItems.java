@@ -36,7 +36,7 @@ public class ModItems {
     public static void initialize() {
         // Just say no to custom item groups as the botchy big G says
         compostAndFuel(SUSPICIOUS_SUBSTANCE, 0.1f, 5, ItemGroups.INGREDIENTS);
-        compostAndFuel(ModBlocks.SUSPICIOUS_DIRT, 0.1f, 5, ItemGroups.NATURAL);
+        compostAndFuel(ModBlocks.SUSPICIOUS_DIRT, 0.1f * 9, 5 * 9, ItemGroups.NATURAL);
     }
 
     private static Item register(String name, Function<Item.Settings, Item> itemFactory, Item.Settings settings) {

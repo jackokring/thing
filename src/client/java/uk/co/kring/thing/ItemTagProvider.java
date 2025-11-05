@@ -3,10 +3,8 @@ package uk.co.kring.thing;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.item.Item;
-//import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
-//import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 
 import java.util.concurrent.CompletableFuture;
@@ -21,7 +19,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         valueLookupBuilder(SUSPICIOUS_ITEMS)
-                .add(ModItems.SUSPICIOUS_SUBSTANCE);
-                // .addOptionalTag(ItemTags.DIRT)
+                .add(ModItems.SUSPICIOUS_SUBSTANCE)
+                .add(ModBlocks.SUSPICIOUS_DIRT.asItem());
     }
 }

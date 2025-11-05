@@ -15,7 +15,7 @@ import java.util.function.Function;
 public class ModBlocks {
     public static final AbstractBlock.Settings GRASS = AbstractBlock.Settings.create().sounds(BlockSoundGroup.GRASS);
 
-    public static final Block SUSPICIOUS_DIRT = register("condensed_dirt", Block::new, GRASS);
+    public static final Block SUSPICIOUS_DIRT = register("suspicious_dirt", Block::new, GRASS);
 
     public static void initialize() {
 
