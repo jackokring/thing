@@ -11,6 +11,6 @@ public class ThingDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(ItemTagProvider::new);
         pack.addProvider(ModelProvider::new);
         pack.addProvider(BlockLootTableProvider::new);
-
+        pack.addProvider(RecipeDataProvider::new);
     }
 }
