@@ -6,10 +6,24 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.ItemLike;
 import java.util.concurrent.CompletableFuture;
 
+// Section Marker § for formatting codes allowed
+// JSON may have some style keys on some resources
+// colours before formatting
+// 0-9a-f hex in colour nibble <bright><red><green><blue>
+// g-j
+// k obfuscated
+// l bold
+// m strikethrough
+// n underline
+// o italic
+// p-q
+// r reset
+// s-z
+
 public class LangProviderEnglish extends FabricLanguageProvider {
     protected LangProviderEnglish(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         // Specifying en_us is optional, as it's the default language code
-        super(dataOutput, "en_uk", registryLookup);
+        super(dataOutput, "en_gb", registryLookup);
     }
 
     void generateItem(TranslationBuilder builder, ItemLike item, String translation, String tooltip) {
