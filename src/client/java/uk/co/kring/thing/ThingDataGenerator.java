@@ -9,6 +9,7 @@ public class ThingDataGenerator implements DataGeneratorEntrypoint {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
         pack.addProvider(LangProviderEnglish::new);
         pack.addProvider(ItemTagProvider::new);
+        pack.addProvider(BlockTagProvider::new);
         pack.addProvider(ModelProvider::new);
         pack.addProvider(BlockLootTableProvider::new);
         pack.addProvider(RecipeDataProvider::new);
