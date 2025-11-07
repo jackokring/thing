@@ -27,9 +27,11 @@ public class RecipeDataProvider extends FabricRecipeProvider {
                         .pattern("sss")
                         .pattern("sss")
                         .define('s', ModItems.SUSPICIOUS_SUBSTANCE)
+                        .unlockedBy(getHasName(ModItems.SUSPICIOUS_SUBSTANCE), has(ModItems.SUSPICIOUS_SUBSTANCE))
                         .save(exporter);
                 shapeless(RecipeCategory.MISC, ModItems.SUSPICIOUS_SUBSTANCE, 9)
                         .requires(ModBlocks.SUSPICIOUS_DIRT)
+                        .unlockedBy(getHasName(ModBlocks.SUSPICIOUS_DIRT), has(ModBlocks.SUSPICIOUS_DIRT))
                         .save(exporter);
             }
         };
