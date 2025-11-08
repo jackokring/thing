@@ -95,6 +95,12 @@ more the personal taste of people, so few if any are included here. Then there's
 it will likely spill into Java Edition. I as of **2025** only have an Intel NUC, so I'm not a melted connector GFX
 guy. I'd likely use such a thing for some mod AI experimentation anyway.
 
+## Some Other Mods
+
+* [`fadeless`](https://modrinth.com/mod/fadeless) - Optimization by eliminating cuts/fades
+* [`NoChatReports`](https://modrinth.com/mod/no-chat-reports) - For controversial chat reporting (Adults assumed)
+* [`ViaFabricPlus`](https://modrinth.com/mod/viafabricplus) - For protocol conversion to older servers
+
 ## Other Useful Links
 
 ### Project Related
