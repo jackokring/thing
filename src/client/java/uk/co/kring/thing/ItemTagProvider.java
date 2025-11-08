@@ -9,7 +9,7 @@ import net.minecraft.world.item.Item;
 import java.util.concurrent.CompletableFuture;
 
 public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
-    public static final TagKey<Item> SUSPICIOUS_ITEMS = TagKey.create(Registries.ITEM, Thing.identify("suspicious_items"));
+    static final TagKey<Item> SUSPICIOUS_ITEMS = TagKey.create(Registries.ITEM, Thing.identify("suspicious_items"));
 
     public ItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);

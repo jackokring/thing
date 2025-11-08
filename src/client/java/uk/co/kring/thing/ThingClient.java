@@ -1,5 +1,7 @@
 package uk.co.kring.thing;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.network.chat.Component;
@@ -11,8 +13,12 @@ import java.util.HashMap;
 
 public class ThingClient implements ClientModInitializer {
 
-    public static String tooltipKey(ItemLike item) {
+    static String tooltipKey(ItemLike item) {
         return item.asItem().getDescriptionId() + ".tooltip";
+    }
+
+    static ModConfig getConfig() {
+        return AutoConfig.getConfigHolder(ModConfig.class).getConfig();
     }
 
 	@Override
@@ -26,11 +32,12 @@ public class ThingClient implements ClientModInitializer {
             if(tip != null)
                 list.add(tip);
         });
-	}
+        AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
+    }
 
     HashMap<ItemLike, MutableComponent> tipMap = new HashMap<>();
 
-    public void tipSimple(ItemLike is) {
+    void tipSimple(ItemLike is) {
         tipMap.put(is, Component.translatable(tooltipKey(is)));
     }
 }

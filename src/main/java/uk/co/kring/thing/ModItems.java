@@ -19,26 +19,26 @@ import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.ItemLike;
 import java.util.function.Function;
 
-public class ModItems {
+class ModItems {
     // hey fatty
-    public static final FoodProperties EDIBLE = new FoodProperties.Builder().alwaysEdible().build();
-    public static final Consumable OH_MY_TUMMY = Consumables.defaultFood()
+    static final FoodProperties EDIBLE = new FoodProperties.Builder().alwaysEdible().build();
+    static final Consumable OH_MY_TUMMY = Consumables.defaultFood()
             // The duration is in ticks, 20 ticks = 1 second
             .onConsume(new ApplyStatusEffectsConsumeEffect(new MobEffectInstance(MobEffects.POISON,
                     6 * 20, 1), 1.0f))
             .build();
 
     // all items in the reduce, reuse, recycle mindset
-    public static final Item SUSPICIOUS_SUBSTANCE = register(
+    static final Item SUSPICIOUS_SUBSTANCE = register(
             "suspicious_substance", Item::new, new Item.Properties().food(EDIBLE, OH_MY_TUMMY));
 
-    public static void initialize() {
+    static void initialize() {
         // Just say no to custom item groups as the botchy big G says
         compostAndFuel(SUSPICIOUS_SUBSTANCE, 0.1f, 5, CreativeModeTabs.INGREDIENTS);
         compostAndFuel(ModBlocks.SUSPICIOUS_DIRT, 0.1f * 9, 5 * 9, CreativeModeTabs.NATURAL_BLOCKS);
     }
 
-    private static Item register(String name, Function<Item.Properties, Item> itemFactory, Item.Properties settings) {
+    static Item register(String name, Function<Item.Properties, Item> itemFactory, Item.Properties settings) {
         // Create the item key.
         ResourceKey<Item> itemKey = ResourceKey.create(Registries.ITEM, Thing.identify(name));
 
@@ -51,7 +51,7 @@ public class ModItems {
         return item;
     }
 
-    public static void compostAndFuel(ItemLike item,
+    static void compostAndFuel(ItemLike item,
                                       float compostChance, int fuelSeconds, ResourceKey<CreativeModeTab> whereGUI) {
         ItemGroupEvents.modifyEntriesEvent(whereGUI).register(group -> {
             group.accept(item);

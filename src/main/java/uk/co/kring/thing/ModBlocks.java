@@ -11,18 +11,18 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
-public class ModBlocks {
+class ModBlocks {
     //NEED_TOOL = BlockBehaviour.Properties.of().requiresCorrectToolForDrops();
 
     public static final BlockBehaviour.Properties GRASS = BlockBehaviour.Properties.of().sound(SoundType.GRASS);
 
-    public static final Block SUSPICIOUS_DIRT = register("suspicious_dirt", Block::new, GRASS);
+    static final Block SUSPICIOUS_DIRT = register("suspicious_dirt", Block::new, GRASS);
 
-    public static void initialize() {
+    static void initialize() {
 
     }
 
-    private static Block register(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties settings) {
+    static Block register(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties settings) {
         // Create a registry key for the block
         ResourceKey<Block> blockKey = ResourceKey.create(Registries.BLOCK, Thing.identify(name));
         // Create the block instance

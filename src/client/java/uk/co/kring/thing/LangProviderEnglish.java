@@ -20,7 +20,7 @@ import java.util.concurrent.CompletableFuture;
 // r reset
 // s-z
 
-public class LangProviderEnglish extends FabricLanguageProvider {
+class LangProviderEnglish extends FabricLanguageProvider {
     protected LangProviderEnglish(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         // Specifying en_us is optional, as it's the default language code
         super(dataOutput, "en_gb", registryLookup);
