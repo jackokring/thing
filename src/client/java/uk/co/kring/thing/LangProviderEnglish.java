@@ -1,8 +1,12 @@
 package uk.co.kring.thing;
 
+import eu.pb4.placeholders.api.Placeholders;
+import eu.pb4.placeholders.api.parsers.NodeParser;
+import eu.pb4.placeholders.api.parsers.TagParser;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ItemLike;
 import java.util.concurrent.CompletableFuture;
 
@@ -42,5 +46,20 @@ class LangProviderEnglish extends FabricLanguageProvider {
         // Items and Blocks
         generateItem(builder, ModItems.SUSPICIOUS_SUBSTANCE, "Suspicious Substance", "A powerful substance");
         generateItem(builder, ModBlocks.SUSPICIOUS_DIRT, "Suspicious Dirt", "Very, very suspicious dirt");
+    }
+
+    Component useSimpleText(String in) {
+        // V1 deprecated
+        //@SuppressWarnings("all")
+        NodeParser parser = NodeParser.merge(TagParser.SIMPLIFIED_TEXT_FORMAT,
+                Placeholders.DEFAULT_PLACEHOLDER_PARSER);
+        // toText accepts PlaceholderContext and ParserContext etc.
+        // So this is apparently how to get a V1 MiniMessage format with placeholder insertions
+        // The documentation appears out of date, and well, who knows?
+
+        // I suppose it's not helped by the source not being compiled against Mojang base
+        // and so the .class file has to be decompiled with parchment too
+        // but, yes, that should be it for %placeholder% as default
+        return parser.parseNode(in).toText();
     }
 }
