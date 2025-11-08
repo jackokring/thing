@@ -77,6 +77,7 @@ So for **2025** there's these:
 * [`lithium`](https://modrinth.com/mod/lithium) - Various CPU optimizations
 * [`mclogs-fabric`](https://modrinth.com/plugin/mclogs) - A logs sharing command `/mclogs` (`/mclogsc` on the client)
 * [`modmenu`](https://modrinth.com/mod/modmenu) - Mod configuration menus plus **API** (Added as dependency)
+* [`placeholder-api`](https://modrinth.com/mod/placeholder-api) - Useful string macros **API** (Added as dependency)
 * [`Scribble`](https://modrinth.com/mod/scribble) - Easier book editing interface
 * [`StackDeobfuscatorFabric`](https://modrinth.com/mod/stackdeobf) - For better stack traces on errors
 

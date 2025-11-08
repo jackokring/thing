@@ -43,7 +43,8 @@
 		"minecraft": "${minecraft_version}",
 		"java": "${java_version}",
 		"fabric-api": "${fabric_version}",
-        "cloth-config": "${cloth_config_version}"
+        "cloth-config": "${cloth_config_version}",
+        "placeholder-api": "${placeholder_version}"
     },
     "# modmenu is optional as you might not want to change the config": true,
     "suggests": {
