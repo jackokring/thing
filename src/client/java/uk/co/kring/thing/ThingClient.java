@@ -90,6 +90,11 @@ public class ThingClient implements ClientModInitializer {
     // https://git.brn.systems/BRNSystems/chatencryptor/src/branch/main/src/main/java/systems/brn/chatencryptor/SecureChat.java
     // Under MIT Licence, but with some adaptations to use cloth config, 1.21.10 an kind of MiniMessage formatting
 
+    // TODO:
+    // maybe some teams §<colour>§k crypt §r
+    // maybe a decoder item
+    // ummm ...
+
     boolean decryptChatMessage(Component component, @Nullable PlayerChatMessage playerChatMessage, @Nullable GameProfile gameProfile, ChatType.Bound bound, Instant instant) {
         TranslatableTextContent content = (TranslatableTextContent) message.getContent();
         String message_content = content.getArg(1).getString();
