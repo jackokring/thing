@@ -94,31 +94,29 @@ public class ThingClient implements ClientModInitializer {
 
     // The following is a mashed up version of similar to
     // https://git.brn.systems/BRNSystems/chatencryptor/src/branch/main/src/main/java/systems/brn/chatencryptor/SecureChat.java
-    // Under MIT Licence, but with some adaptations to use cloth config, 1.21.10 an kind of MiniMessage formatting
-
-    // TODO: salt from ""
-    // maybe a decoder item
-    // ummm ...
+    // Under MIT Licence, but with some adaptations to use cloth config, 1.21.10 and kind of MiniMessage formatting
 
     boolean decryptChatMessage(Component component, @Nullable PlayerChatMessage playerChatMessage, @Nullable GameProfile gameProfile, ChatType.Bound bound, Instant instant) {
-        TranslatableContents content = (TranslatableContents) component.getContents();
-        String message_content = content.getArgument(1).getString();
-        String player_name = content.getArgument(0).getString();
-        if(message_content.startsWith("§k") && message_content.endsWith("§r")){
-            try {
-                Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-                cipher.init(Cipher.DECRYPT_MODE, KEY);
-                String strippedMessage = message_content.substring(2, message_content.length() - 2);
-                byte[] decodedMessage = Base64.getDecoder().decode(strippedMessage);
-                cipher.update(decodedMessage);
-                String decryptedMessage = new String(cipher.doFinal());
-                // That was a bit of a find in the Mojang mappings
-                Minecraft.getInstance().gui.getChat().addMessage(Component.translatable("chat.type.text", player_name, decryptedMessage));
-                return false;
-            }
-            catch (IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException |
-                   InvalidKeyException e){
-                return true;
+        if(bound.chatType().is(ChatType.CHAT)) { // as I think other typing is of various formats
+            TranslatableContents content = (TranslatableContents) component.getContents();
+            String message_content = content.getArgument(1).getString();
+            String player_name = content.getArgument(0).getString();
+            if (message_content.startsWith("§k") && message_content.endsWith("§r")) {
+                try {
+                    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+                    cipher.init(Cipher.DECRYPT_MODE, KEY);
+                    String strippedMessage = message_content.substring(2, message_content.length() - 2);
+                    byte[] decodedMessage = Base64.getDecoder().decode(strippedMessage);
+                    cipher.update(decodedMessage);
+                    String decryptedMessage = new String(cipher.doFinal());
+                    // That was a bit of a find in the Mojang mappings
+                    Minecraft.getInstance().gui.getChat().addMessage(Component.translatable("chat.type.text", player_name, decryptedMessage));
+                    return false;
+                } catch (IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException |
+                         NoSuchPaddingException |
+                         InvalidKeyException e) {
+                    return true;
+                }
             }
         }
         return true;
