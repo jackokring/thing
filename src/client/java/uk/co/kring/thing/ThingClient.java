@@ -101,6 +101,7 @@ public class ThingClient implements ClientModInitializer {
 
     boolean decryptChatMessage(Component component, @Nullable PlayerChatMessage playerChatMessage, @Nullable GameProfile gameProfile, ChatType.Bound bound, Instant instant) {
         if(bound.chatType().is(ChatType.CHAT)) { // as I think other typing is of various formats
+            Style style = component.getStyle();
             TranslatableContents content = (TranslatableContents) component.getContents();
             String message_content = content.getArgument(1).getString();
             String player_name = content.getArgument(0).getString();
@@ -115,7 +116,8 @@ public class ThingClient implements ClientModInitializer {
                     CharsetDecoder cd = StandardCharsets.UTF_8.newDecoder();
                     String decryptedMessage = cd.decode(ByteBuffer.wrap(cipher.doFinal())).toString();
                     // That was a bit of a find in the Mojang mappings
-                    Minecraft.getInstance().gui.getChat().addMessage(Component.translatable("chat.type.text", player_name, decryptedMessage));
+                    Minecraft.getInstance().gui.getChat().addMessage(Component.translatable("chat.type.text",
+                            player_name, decryptedMessage).setStyle(style)); // maintain style of component
                     return false;
                 } catch (IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException |
                          NoSuchPaddingException | CharacterCodingException | // Less bad decode prints

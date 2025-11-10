@@ -1,6 +1,11 @@
 package uk.co.kring.thing;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.message.v1.ServerMessageDecoratorEvent;
+import net.fabricmc.fabric.api.message.v1.ServerMessageEvents;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,5 +30,16 @@ public class Thing implements ModInitializer {
         ModItems.initialize();
         ModBlocks.initialize();
 
+        // Style up the ops posts using this
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            ServerMessageDecoratorEvent.EVENT.register(ServerMessageDecoratorEvent.STYLING_PHASE,
+                    (sender, message) -> {
+                        if (sender != null && sender.server.getPlayerList().isOp(sender.nameAndId())) {
+                            return message.copy().withStyle(style ->
+                                    style.withColor(ChatFormatting.getByName("gold")).withBold(true));
+                        }
+                        return message;
+            });
+        });
     }
 }

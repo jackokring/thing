@@ -31,6 +31,7 @@
           "uk.co.kring.thing.MenuIntegration"
         ]
     },
+    "accessWidener": "thing.accesswidener",
 	"mixins": [
 		"thing.mixins.json",
 		{
