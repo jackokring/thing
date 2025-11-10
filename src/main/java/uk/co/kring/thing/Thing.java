@@ -5,6 +5,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.message.v1.ServerMessageDecoratorEvent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.players.NameAndId;
+import net.minecraft.server.players.ServerOpListEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,15 +31,32 @@ public class Thing implements ModInitializer {
         ModBlocks.initialize();
 
         // Style up the ops posts using this
-        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
-            ServerMessageDecoratorEvent.EVENT.register(ServerMessageDecoratorEvent.STYLING_PHASE,
-                    (sender, message) -> {
-                        if (sender != null && sender.server.getPlayerList().isOp(sender.nameAndId())) {
-                            return message.copy().withStyle(style ->
-                                    style.withColor(ChatFormatting.getByName("gold")).withBold(true));
+        ServerLifecycleEvents.SERVER_STARTED.register(server ->
+                ServerMessageDecoratorEvent.EVENT.register(ServerMessageDecoratorEvent.STYLING_PHASE,
+                (sender, message) -> {
+                    if(sender != null) {
+                        NameAndId player = sender.nameAndId();
+                        if (sender.server.getPlayerList().isOp(player)) {
+                            ServerOpListEntry op = sender.server.getPlayerList().getOps().get(player);
+                            if(op != null) {
+                                switch (op.getLevel()) {
+                                    // owner
+                                    case 4: return message.copy().withStyle(style ->
+                                            style.withColor(ChatFormatting.getByName("gold")).withBold(true));
+                                    // administrator
+                                    case 3: return message.copy().withStyle(style ->
+                                            style.withColor(ChatFormatting.getByName("gold")));
+                                    // gamemaster
+                                    case 2: return message.copy().withStyle(style ->
+                                            style.withColor(ChatFormatting.getByName("red")).withBold(true));
+                                    // moderator
+                                    case 1: return message.copy().withStyle(style ->
+                                            style.withColor(ChatFormatting.getByName("red")));
+                                }
+                            }
                         }
-                        return message;
-            });
-        });
+                    }
+                    return message;
+        }));
     }
 }

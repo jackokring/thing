@@ -81,6 +81,7 @@ public class ThingClient implements ClientModInitializer {
     }
 
     static Component useSimpleText(String in) {
+        in = in.replaceAll("§[0-9a-fA-F]", "");
         // V1 deprecated
         //@SuppressWarnings("all")
         NodeParser parser = NodeParser.merge(TagParser.SIMPLIFIED_TEXT_FORMAT,

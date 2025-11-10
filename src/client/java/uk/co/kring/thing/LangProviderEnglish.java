@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 // JSON may have some style keys on some resources
 // colours before formatting
 // 0-9a-f hex in colour nibble <bright><red><green><blue>
+// N.B. can use ThingClient.useSimpleText() for any MiniMessage style formatting
 // g-j
 // k obfuscated
 // l bold
@@ -51,7 +52,7 @@ class LangProviderEnglish extends FabricLanguageProvider {
 
         generateConfig(builder, "title", "Thing Settings", null);
         generateConfig(builder, "category.chat", "Chat Settings", null);
-        generateConfig(builder,"option.cryptEnabled", "Enable Chat Encryption", "Encrypt Outgoing Chat Using a Passphrase");
-        generateConfig(builder, "option.key", "AES Cryptographic Key", "Set to a passphrase to make a team key");
+        generateConfig(builder,"option.cryptEnabled", "Enable Chat Encryption", "Encrypt outgoing chat using a passphrase");
+        generateConfig(builder, "option.key", "AES Cryptographic Key", "Set this to a passphrase to make a key");
     }
 }
