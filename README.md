@@ -9,6 +9,7 @@ symbols.
 * Some convenience documentation for general modding
 * Some mod lists to maybe work as a modpack
 * The `Suspicious Substance` (reduce, reuse, recycle)
+* Some chat encryption and `op` marking at the server
 
 ## Easy Development
 
@@ -72,6 +73,7 @@ So for **2025** there's these:
 * [`eiv-fabric`](https://modrinth.com/mod/eiv) - Extended ItemView for finding resource recipes **API**
   * No designs to make other craft formats, so **API** not used yet 
 * [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use (Dependency, but uses mod folder copy)
+* [`fadeless`](https://modrinth.com/mod/fadeless) - Optimization by eliminating cuts/fades
 * [`ferritecore`](https://modrinth.com/mod/ferrite-core) - Some Java memory optimizations
 * [`Jade`](https://modrinth.com/mod/jade) - Block/Entity ID on HUD
 * [`lithium`](https://modrinth.com/mod/lithium) - Various CPU optimizations
@@ -95,9 +97,9 @@ more the personal taste of people, so few if any are included here. Then there's
 it will likely spill into Java Edition. I as of **2025** only have an Intel NUC, so I'm not a melted connector GFX
 guy. I'd likely use such a thing for some mod AI experimentation anyway.
 
-## Some Other Mods
+## Networking and Multiplayer Modes
 
-* [`fadeless`](https://modrinth.com/mod/fadeless) - Optimization by eliminating cuts/fades
+* [`locator-heads`](https://modrinth.com/mod/locator-heads) - Nice for online play
 * [`NoChatReports`](https://modrinth.com/mod/no-chat-reports) - For controversial chat reporting (Adults assumed)
 * [`ViaFabricPlus`](https://modrinth.com/mod/viafabricplus) - For protocol conversion to older servers
 
