@@ -6,9 +6,24 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 @Config(name = "thing")
 class ModConfig implements ConfigData {
-    boolean enabled = true;
+    @ConfigEntry.Category("chat")
+    @ConfigEntry.Gui.Tooltip()
+    boolean cryptEnabled = true;
+    @ConfigEntry.Category("chat")
+    @ConfigEntry.Gui.Tooltip()
     String key = "";
 
+    @Override
+    public void validatePostLoad() throws ValidationException {
+        ConfigData.super.validatePostLoad();
+        try {
+            ThingClient.getKeyFromPassword(key.toCharArray());
+        } catch (Exception e) {
+            throw new ValidationException(e);
+        }
+    }
+
+    /*
     @ConfigEntry.Gui.CollapsibleObject
     InnerStuff stuff = new InnerStuff();
 
@@ -18,5 +33,5 @@ class ModConfig implements ConfigData {
     static class InnerStuff {
         int a = 0;
         int b = 1;
-    }
+    } */
 }

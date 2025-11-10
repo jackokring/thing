@@ -32,6 +32,12 @@ class LangProviderEnglish extends FabricLanguageProvider {
             builder.add(ThingClient.tooltipKey(item), tooltip);
     }
 
+    void generateConfig(TranslationBuilder builder, String key,  String translation, String tooltip) {
+        builder.add("text.autoconfig." + Thing.MOD_ID + "." + key, translation);
+        if(tooltip != null)
+            builder.add("text.autoconfig." + Thing.MOD_ID + "." + key + ".@Tooltip", tooltip);
+    }
+
     @Override
     public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder builder) {
         // ModMenu language adaptation
@@ -42,5 +48,10 @@ class LangProviderEnglish extends FabricLanguageProvider {
         // Items and Blocks
         generateItem(builder, ModItems.SUSPICIOUS_SUBSTANCE, "Suspicious Substance", "A powerful substance");
         generateItem(builder, ModBlocks.SUSPICIOUS_DIRT, "Suspicious Dirt", "Very, very suspicious dirt");
+
+        generateConfig(builder, "title", "Thing Settings", null);
+        generateConfig(builder, "category.chat", "Chat Settings", null);
+        generateConfig(builder,"option.cryptEnabled", "Enable Chat Encryption", "Encrypt Outgoing Chat Using a Passphrase");
+        generateConfig(builder, "option.key", "AES Cryptographic Key", "Set to a passphrase to make a team key");
     }
 }
