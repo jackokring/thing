@@ -1,8 +1,6 @@
 package uk.co.kring.thing;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.client.MinecraftClient;
-import com.mojang.brigadier.Message;
 import eu.pb4.placeholders.api.Placeholders;
 import eu.pb4.placeholders.api.parsers.NodeParser;
 import eu.pb4.placeholders.api.parsers.TagParser;
@@ -13,23 +11,22 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.ChatType;
-import net.minecraft.network.chat.PlayerChatMessage;
-import net.minecraft.network.chat.SignedMessage;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.*;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.Nullable;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.*;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.time.Instant;
+import java.util.Base64;
 import java.util.HashMap;
 
 public class ThingClient implements ClientModInitializer {
@@ -38,8 +35,14 @@ public class ThingClient implements ClientModInitializer {
         return item.asItem().getDescriptionId() + ".tooltip";
     }
 
-    static ModConfig getConfig() {
-        return AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+    static ModConfig CONFIG;
+
+    static SecretKey getKeyFromPassword(char[] password, byte[] salt)
+            throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        KeySpec spec = new PBEKeySpec(password, salt, 65536, 256);
+        return new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
     }
 
 	@Override
@@ -56,6 +59,7 @@ public class ThingClient implements ClientModInitializer {
 
         // Config init
         AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
+        CONFIG = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
         // Chat interceptor
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
@@ -90,52 +94,52 @@ public class ThingClient implements ClientModInitializer {
     // https://git.brn.systems/BRNSystems/chatencryptor/src/branch/main/src/main/java/systems/brn/chatencryptor/SecureChat.java
     // Under MIT Licence, but with some adaptations to use cloth config, 1.21.10 an kind of MiniMessage formatting
 
-    // TODO:
+    // TODO: salt from ""
     // maybe some teams §<colour>§k crypt §r
     // maybe a decoder item
     // ummm ...
 
     boolean decryptChatMessage(Component component, @Nullable PlayerChatMessage playerChatMessage, @Nullable GameProfile gameProfile, ChatType.Bound bound, Instant instant) {
-        TranslatableTextContent content = (TranslatableTextContent) message.getContent();
-        String message_content = content.getArg(1).getString();
+        ComponentContents content = playerChatMessage.unsignedContent().getContents();
+        String message_content = content..getArg(1).getString();
         String player_name = content.getArg(0).getString();
-        if(message_content.startsWith("®") && message_content.endsWith("®")){
+        if(message_content.startsWith("§k") && message_content.endsWith("§r")){
             try {
                 Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-                cipher.init(Cipher.DECRYPT_MODE, Config.HANDLER.instance().getRawKey(), Config.HANDLER.instance().getRawIv());
-                String strippedMessage = message_content.substring(1, message_content.length() - 1);
-                byte[] decodedMessage = ChatCoder.decodeFromBmp(strippedMessage);
+                cipher.init(Cipher.DECRYPT_MODE, getKeyFromPassword(CONFIG.key.toCharArray(),"".getBytes()));
+                String strippedMessage = message_content.substring(2, message_content.length() - 2);
+                byte[] decodedMessage = Base64.getDecoder().decode(strippedMessage);
                 cipher.update(decodedMessage);
                 String decryptedMessage = new String(cipher.doFinal());
-                String outputMessage = "{" + player_name + "} " + decryptedMessage;
-                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Component.literal(outputMessage));
+                String outputMessage = "<" + player_name + "> " + decryptedMessage;
+                Minecraft.getInstance().inGameHud.getChatHud().addMessage(Component.literal(outputMessage));
                 return false;
             }
             catch (IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException |
-                   InvalidKeyException e){
-                MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(Text.of((Message) e));
+                   InvalidKeyException | InvalidKeySpecException e){
                 return true;
             }
         }
         return true;
     }
 
+    // TODO: salt from ""
     String encryptChatMessage(String message) {
-        if(Config.HANDLER.instance().isEnabled() ^ isShiftPressed()){
+        if(CONFIG.enabled){
             String encodedMessage;
             try {
+                message = useSimpleText(message).getString();// MiniMessage
                 Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-                cipher.init(Cipher.ENCRYPT_MODE, Config.HANDLER.instance().getRawKey(), Config.HANDLER.instance().getRawIv());
+                cipher.init(Cipher.ENCRYPT_MODE, getKeyFromPassword(CONFIG.key.toCharArray(),"".getBytes()));
                 cipher.update(message.getBytes(StandardCharsets.UTF_8));
                 byte[] encryptedMessage = cipher.doFinal();
-                encodedMessage = ChatCoder.encodeToBmp(encryptedMessage);
-            } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException | NoSuchPaddingException | InvalidAlgorithmParameterException |
-                     NoSuchAlgorithmException e) {
+                encodedMessage = Base64.getEncoder().encodeToString(encryptedMessage);
+            } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeySpecException | NoSuchPaddingException |
+                     NoSuchAlgorithmException | InvalidKeyException e) {
                 return "";
             }
-            return '®' + encodedMessage + '®';
-        }
-        else {
+            return "§k" + encodedMessage + "§r";
+        } else {
             return message;
         }
     }

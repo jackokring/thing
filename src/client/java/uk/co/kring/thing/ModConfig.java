@@ -6,8 +6,8 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 @Config(name = "thing")
 class ModConfig implements ConfigData {
-    boolean toggleA = true;
-    boolean toggleB = false;
+    boolean enabled = true;
+    String key = "";
 
     @ConfigEntry.Gui.CollapsibleObject
     InnerStuff stuff = new InnerStuff();
