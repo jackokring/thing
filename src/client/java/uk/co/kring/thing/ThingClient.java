@@ -20,6 +20,9 @@ import org.jetbrains.annotations.Nullable;
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.ByteBuffer;
+import java.nio.charset.CharacterCodingException;
+import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -108,12 +111,14 @@ public class ThingClient implements ClientModInitializer {
                     String strippedMessage = message_content.substring(2, message_content.length() - 2);
                     byte[] decodedMessage = Base64.getDecoder().decode(strippedMessage);
                     cipher.update(decodedMessage);
-                    String decryptedMessage = new String(cipher.doFinal());
+                    // I just like being explicit and bad UTF-8 is wrong key indicator
+                    CharsetDecoder cd = StandardCharsets.UTF_8.newDecoder();
+                    String decryptedMessage = cd.decode(ByteBuffer.wrap(cipher.doFinal())).toString();
                     // That was a bit of a find in the Mojang mappings
                     Minecraft.getInstance().gui.getChat().addMessage(Component.translatable("chat.type.text", player_name, decryptedMessage));
                     return false;
                 } catch (IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException |
-                         NoSuchPaddingException |
+                         NoSuchPaddingException | CharacterCodingException | // Less bad decode prints
                          InvalidKeyException e) {
                     return true;
                 }
