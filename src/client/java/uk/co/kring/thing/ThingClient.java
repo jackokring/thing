@@ -70,7 +70,9 @@ public class ThingClient implements ClientModInitializer {
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
             // Register event listener for ClientTickEvents.END_CLIENT_TICK
             ClientReceiveMessageEvents.ALLOW_CHAT.register(this::decryptChatMessage);
+            //ClientReceiveMessageEvents.MODIFY_GAME
             ClientSendMessageEvents.MODIFY_CHAT.register(this::encryptChatMessage);
+            //ClientSendMessageEvents.MODIFY_COMMAND
         });
     }
 
@@ -81,7 +83,7 @@ public class ThingClient implements ClientModInitializer {
     }
 
     static Component useSimpleText(String in) {
-        in = in.replaceAll("§[0-9a-fA-F]", "");
+        in = in.replaceAll("§.", "");
         // V1 deprecated
         //@SuppressWarnings("all")
         NodeParser parser = NodeParser.merge(TagParser.SIMPLIFIED_TEXT_FORMAT,
@@ -106,11 +108,11 @@ public class ThingClient implements ClientModInitializer {
             TranslatableContents content = (TranslatableContents) component.getContents();
             String message_content = content.getArgument(1).getString();
             String player_name = content.getArgument(0).getString();
-            if (message_content.startsWith("§k") && message_content.endsWith("§r")) {
+            if (message_content.startsWith("§k")) {
                 try {
                     Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
                     cipher.init(Cipher.DECRYPT_MODE, KEY);
-                    String strippedMessage = message_content.substring(2, message_content.length() - 2);
+                    String strippedMessage = message_content.substring(2);
                     byte[] decodedMessage = Base64.getDecoder().decode(strippedMessage);
                     cipher.update(decodedMessage);
                     // I just like being explicit and bad UTF-8 is wrong key indicator
@@ -144,7 +146,7 @@ public class ThingClient implements ClientModInitializer {
                      NoSuchAlgorithmException | InvalidKeyException e) {
                 return "";
             }
-            return "§k" + encodedMessage + "§r";
+            return "§k" + encodedMessage;
         } else {
             return message;
         }

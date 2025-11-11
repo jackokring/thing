@@ -34,30 +34,28 @@ public class Thing implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register(server ->
                 ServerMessageDecoratorEvent.EVENT.register(ServerMessageDecoratorEvent.STYLING_PHASE,
                 (sender, message) -> {
-                    if(sender != null) {
-                        NameAndId player = sender.nameAndId();
-                        //if (sender.server.getPlayerList().isOp(player)) {
-                            ServerOpListEntry op = sender.server.getPlayerList().getOps().get(player);
-                            if(op != null) {
-                                switch (op.getLevel()) {
-                                    // owner
-                                    case 4: return message.copy().withStyle(style ->
-                                            style.withColor(ChatFormatting.getByName("gold")).withBold(true));
-                                    // administrator
-                                    case 3: return message.copy().withStyle(style ->
-                                            style.withColor(ChatFormatting.getByName("gold")));
-                                    // gamemaster
-                                    case 2: return message.copy().withStyle(style ->
-                                            style.withColor(ChatFormatting.getByName("red")).withBold(true));
-                                    // moderator
-                                    case 1: return message.copy().withStyle(style ->
-                                            style.withColor(ChatFormatting.getByName("red")));
-                                    default: break; // maybe ??
-                                }
-                            }
-                        //}
+            if(sender != null) {
+                NameAndId player = sender.nameAndId();
+                ServerOpListEntry op = sender.server.getPlayerList().getOps().get(player);
+                if(op != null) {
+                    switch (op.getLevel()) {
+                        // owner
+                        case 4: return message.copy().withStyle(style ->
+                                style.withColor(ChatFormatting.getByName("gold")).withBold(true));
+                        // administrator
+                        case 3: return message.copy().withStyle(style ->
+                                style.withColor(ChatFormatting.getByName("gold")));
+                        // gamemaster
+                        case 2: return message.copy().withStyle(style ->
+                                style.withColor(ChatFormatting.getByName("red")).withBold(true));
+                        // moderator
+                        case 1: return message.copy().withStyle(style ->
+                                style.withColor(ChatFormatting.getByName("red")));
+                        default: break; // maybe ??
                     }
-                    return message;
+                }
+            }
+            return message;
         }));
     }
 }

@@ -8,7 +8,7 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 class ModConfig implements ConfigData {
     @ConfigEntry.Category("chat")
     @ConfigEntry.Gui.Tooltip()
-    boolean cryptEnabled = true;
+    boolean cryptEnabled = false;// as no passphrase yet
     @ConfigEntry.Category("chat")
     @ConfigEntry.Gui.Tooltip()
     String key = "";
