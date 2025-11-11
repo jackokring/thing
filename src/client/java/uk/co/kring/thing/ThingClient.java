@@ -1,8 +1,6 @@
 package uk.co.kring.thing;
 
 import com.mojang.authlib.GameProfile;
-import eu.pb4.placeholders.api.Placeholders;
-import eu.pb4.placeholders.api.parsers.NodeParser;
 import eu.pb4.placeholders.api.parsers.TagParser;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -82,20 +80,9 @@ public class ThingClient implements ClientModInitializer {
         tipMap.put(is, Component.translatable(tooltipKey(is)));
     }
 
-    static Component useSimpleText(String in) {
+    static String useSimpleText(String in) {
         in = in.replaceAll("§.", "");
-        // V1 deprecated
-        //@SuppressWarnings("all")
-        NodeParser parser = NodeParser.merge(TagParser.SIMPLIFIED_TEXT_FORMAT,
-                Placeholders.DEFAULT_PLACEHOLDER_PARSER);
-        // toText accepts PlaceholderContext and ParserContext etc.
-        // So this is apparently how to get a V1 MiniMessage format with placeholder insertions
-        // The documentation appears out of date, and well, who knows?
-
-        // I suppose it's not helped by the source not being compiled against Mojang base
-        // and so the .class file has to be decompiled with parchment too
-        // but, yes, that should be it for %placeholder% as default
-        return parser.parseNode(in).toText();
+        return TagParser.SIMPLIFIED_TEXT_FORMAT.parseNode(in).toText().getString();
     }
 
     // The following is a mashed up version of similar to
@@ -133,10 +120,10 @@ public class ThingClient implements ClientModInitializer {
     }
 
     String encryptChatMessage(String message) {
+        message = useSimpleText(message);// MiniMessage
         if(CONFIG.cryptEnabled){
             String encodedMessage;
             try {
-                message = useSimpleText(message).getString();// MiniMessage
                 Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
                 cipher.init(Cipher.ENCRYPT_MODE, KEY);
                 cipher.update(message.getBytes(StandardCharsets.UTF_8));
