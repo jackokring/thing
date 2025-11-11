@@ -36,7 +36,7 @@ public class Thing implements ModInitializer {
                 (sender, message) -> {
                     if(sender != null) {
                         NameAndId player = sender.nameAndId();
-                        if (sender.server.getPlayerList().isOp(player)) {
+                        //if (sender.server.getPlayerList().isOp(player)) {
                             ServerOpListEntry op = sender.server.getPlayerList().getOps().get(player);
                             if(op != null) {
                                 switch (op.getLevel()) {
@@ -52,9 +52,10 @@ public class Thing implements ModInitializer {
                                     // moderator
                                     case 1: return message.copy().withStyle(style ->
                                             style.withColor(ChatFormatting.getByName("red")));
+                                    default: break; // maybe ??
                                 }
                             }
-                        }
+                        //}
                     }
                     return message;
         }));

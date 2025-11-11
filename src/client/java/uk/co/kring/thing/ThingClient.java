@@ -122,7 +122,7 @@ public class ThingClient implements ClientModInitializer {
                     return false;
                 } catch (IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException |
                          NoSuchPaddingException | CharacterCodingException | // Less bad decode prints
-                         InvalidKeyException e) {
+                         InvalidKeyException | IllegalArgumentException e) {// Also base64 decode fails
                     return true;
                 }
             }
@@ -130,7 +130,6 @@ public class ThingClient implements ClientModInitializer {
         return true;
     }
 
-    // TODO: salt from ""
     String encryptChatMessage(String message) {
         if(CONFIG.cryptEnabled){
             String encodedMessage;
