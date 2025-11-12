@@ -1,5 +1,6 @@
 package uk.co.kring.thing;
 
+import com.mojang.brigadier.Command;
 import eu.pb4.placeholders.api.PlaceholderContext;
 import eu.pb4.placeholders.api.PlaceholderResult;
 import eu.pb4.placeholders.api.Placeholders;
@@ -62,7 +63,7 @@ public class Thing implements ModInitializer {
             dispatcher.register(
                     Commands.literal("test_command").executes(context -> {
                 context.getSource().sendSuccess(() -> Component.literal("Called /test_command."), false);
-                return 1;
+                return Command.SINGLE_SUCCESS;
             }));
         });
 
@@ -85,16 +86,16 @@ public class Thing implements ModInitializer {
                 if(op != null) {
                     switch (op.getLevel()) {
                         // owner
-                        case 4: return message.copy().withStyle(style ->
+                        case Commands.LEVEL_OWNERS: return message.copy().withStyle(style ->
                                 style.withColor(ChatFormatting.getByName("gold")).withBold(true));
                         // administrator
-                        case 3: return message.copy().withStyle(style ->
+                        case Commands.LEVEL_ADMINS: return message.copy().withStyle(style ->
                                 style.withColor(ChatFormatting.getByName("gold")));
                         // gamemaster
-                        case 2: return message.copy().withStyle(style ->
+                        case Commands.LEVEL_GAMEMASTERS: return message.copy().withStyle(style ->
                                 style.withColor(ChatFormatting.getByName("red")).withBold(true));
                         // moderator
-                        case 1: return message.copy().withStyle(style ->
+                        case Commands.LEVEL_MODERATORS: return message.copy().withStyle(style ->
                                 style.withColor(ChatFormatting.getByName("red")));
                         default: break; // maybe ??
                     }

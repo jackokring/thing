@@ -1,6 +1,7 @@
 package uk.co.kring.thing;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.brigadier.Command;
 import eu.pb4.placeholders.api.parsers.TagParser;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -71,7 +72,7 @@ public class ThingClient implements ClientModInitializer {
             dispatcher.register(
                     ClientCommandManager.literal("clienttater").executes(context -> {
                 context.getSource().sendFeedback(Component.literal("Called /clienttater with no arguments."));
-                return 1;
+                return Command.SINGLE_SUCCESS;
             }));
         });
 
