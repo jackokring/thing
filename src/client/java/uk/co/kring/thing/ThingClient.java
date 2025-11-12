@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.contents.TranslatableContents;
@@ -92,10 +93,14 @@ public class ThingClient implements ClientModInitializer {
         tipMap.put(is, Component.translatable(tooltipKey(is)));
     }
 
+    // argument wrapper is ':<>% ' for any of special 5 characters in arg
+    // \< is tag as literal text
     static String useSimpleText(String in) {
-        in = in.replaceAll("§.", "");
-        return TagParser.SIMPLIFIED_TEXT_FORMAT.parseNode(in).toText().getString();
+        in = in.replaceAll(ChatFormatting.PREFIX_CODE + ".", "");
+        return TagParser.SIMPLIFIED_TEXT_FORMAT_SAFE.parseNode(in).toText().getString();
     }
+
+    static final String hidden = ChatFormatting.PREFIX_CODE + "k";
 
     // The following is a mashed up version of similar to
     // https://git.brn.systems/BRNSystems/chatencryptor/src/branch/main/src/main/java/systems/brn/chatencryptor/SecureChat.java
@@ -106,7 +111,7 @@ public class ThingClient implements ClientModInitializer {
             Style style = component.getStyle();
             String message_content = msg.getArgument(1).getString();
             String player_name = msg.getArgument(0).getString();
-            if (message_content.startsWith("§k")) {
+            if (message_content.startsWith(hidden)) {
                 try {
                     Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
                     cipher.init(Cipher.DECRYPT_MODE, KEY);
@@ -144,7 +149,7 @@ public class ThingClient implements ClientModInitializer {
                      NoSuchAlgorithmException | InvalidKeyException e) {
                 return "";
             }
-            return "§k" + encodedMessage;
+            return hidden + encodedMessage;
         } else {
             return message;
         }

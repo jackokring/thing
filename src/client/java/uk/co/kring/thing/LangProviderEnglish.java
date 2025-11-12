@@ -10,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
 // JSON may have some style keys on some resources
 // colours before formatting
 // 0-9a-f hex in colour nibble <bright><red><green><blue>
-// N.B. can use ThingClient.useSimpleText() for any MiniMessage style formatting
+// ========== N.B. can use ThingClient.useSimpleText() for any MiniMessage style formatting =========
 // g-j
 // k obfuscated
 // l bold
@@ -41,7 +41,7 @@ class LangProviderEnglish extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder builder) {
-        // ModMenu language adaptation
+        // ModMenu language adaptation (removed text from fabric.mod.json)
         builder.add("modmenu.nameTranslation." + Thing.MOD_ID, "Menu o' mods!");
         builder.add("modmenu.descriptionTranslation." + Thing.MOD_ID, "Menu o' mods ye installed matey!");
         builder.add("modmenu.summaryTranslation." + Thing.MOD_ID, "Menu o' mods ye installed matey!");

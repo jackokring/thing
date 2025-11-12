@@ -67,11 +67,13 @@ public class Thing implements ModInitializer {
             }));
         });
 
-        // register mod placeholders TODO
-        Placeholders.register(Thing.identify("placeholder"), (ctx, /* @Nullable */ arg) -> {
+        // register mod placeholders (the literal %arg)
+        // lucky that text translation is done client side
+        Placeholders.register(Thing.identify("percent"), (ctx, /* @Nullable */ arg) -> {
             // ctx always has server
             // others need PlaceholderContext.of(...) and ctx.hasXXX() test
-            return PlaceholderResult.value(arg);// or .invalid([out]);
+            if(arg == null) arg = "";
+            return PlaceholderResult.value("%" + arg);// or .invalid([out]);
         });
 
         // Style up the ops posts using this
@@ -87,16 +89,16 @@ public class Thing implements ModInitializer {
                     switch (op.getLevel()) {
                         // owner
                         case Commands.LEVEL_OWNERS: return message.copy().withStyle(style ->
-                                style.withColor(ChatFormatting.getByName("gold")).withBold(true));
+                                style.withColor(ChatFormatting.GOLD).withBold(true));
                         // administrator
                         case Commands.LEVEL_ADMINS: return message.copy().withStyle(style ->
-                                style.withColor(ChatFormatting.getByName("gold")));
+                                style.withColor(ChatFormatting.GOLD));
                         // gamemaster
                         case Commands.LEVEL_GAMEMASTERS: return message.copy().withStyle(style ->
-                                style.withColor(ChatFormatting.getByName("red")).withBold(true));
+                                style.withColor(ChatFormatting.RED).withBold(true));
                         // moderator
                         case Commands.LEVEL_MODERATORS: return message.copy().withStyle(style ->
-                                style.withColor(ChatFormatting.getByName("red")));
+                                style.withColor(ChatFormatting.RED));
                         default: break; // maybe ??
                     }
                 }
