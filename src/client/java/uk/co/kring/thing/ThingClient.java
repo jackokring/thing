@@ -102,11 +102,10 @@ public class ThingClient implements ClientModInitializer {
     // Under MIT Licence, but with some adaptations to use cloth config, 1.21.10 and kind of MiniMessage formatting
 
     boolean decryptChatMessage(Component component, @Nullable PlayerChatMessage playerChatMessage, @Nullable GameProfile gameProfile, ChatType.Bound bound, Instant instant) {
-        if(bound.chatType().is(ChatType.CHAT)) { // as I think other typing is of various formats
+        if(bound.chatType().is(ChatType.CHAT) && component.getContents() instanceof TranslatableContents msg) { // as I think other typing is of various formats
             Style style = component.getStyle();
-            TranslatableContents content = (TranslatableContents) component.getContents();
-            String message_content = content.getArgument(1).getString();
-            String player_name = content.getArgument(0).getString();
+            String message_content = msg.getArgument(1).getString();
+            String player_name = msg.getArgument(0).getString();
             if (message_content.startsWith("§k")) {
                 try {
                     Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
