@@ -4,9 +4,11 @@ import eu.pb4.placeholders.api.PlaceholderContext;
 import eu.pb4.placeholders.api.PlaceholderResult;
 import eu.pb4.placeholders.api.Placeholders;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.message.v1.ServerMessageDecoratorEvent;
 import net.minecraft.ChatFormatting;
+import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -54,6 +56,15 @@ public class Thing implements ModInitializer {
 		// Proceed with mild caution.
         ModItems.initialize();
         ModBlocks.initialize();
+
+        CommandRegistrationCallback.EVENT.register(
+                (dispatcher, registryAccess, environment) -> {
+            dispatcher.register(
+                    Commands.literal("test_command").executes(context -> {
+                context.getSource().sendSuccess(() -> Component.literal("Called /test_command."), false);
+                return 1;
+            }));
+        });
 
         // register mod placeholders TODO
         Placeholders.register(Thing.identify("placeholder"), (ctx, /* @Nullable */ arg) -> {

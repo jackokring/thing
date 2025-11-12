@@ -5,6 +5,8 @@ import eu.pb4.placeholders.api.parsers.TagParser;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
@@ -63,6 +65,15 @@ public class ThingClient implements ClientModInitializer {
         // Config init
         AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
+
+        ClientCommandRegistrationCallback.EVENT.register(
+                (dispatcher, registryAccess) -> {
+            dispatcher.register(
+                    ClientCommandManager.literal("clienttater").executes(context -> {
+                context.getSource().sendFeedback(Component.literal("Called /clienttater with no arguments."));
+                return 1;
+            }));
+        });
 
         // Chat interceptor
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
