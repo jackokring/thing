@@ -20,7 +20,7 @@ class AdvancementsProvider extends FabricAdvancementProvider {
     }
 
     String named(String name) {
-        return Thing.MOD_ID +"/" + name;
+        return Thing.MOD_ID + "/" + name;
     }
 
     //TODO translations in data gen do localized to generating PC?
@@ -29,7 +29,7 @@ class AdvancementsProvider extends FabricAdvancementProvider {
         AdvancementHolder rootAdvancement = Advancement.Builder.advancement()
                 .display(
                         ModItems.SUSPICIOUS_SUBSTANCE, // The display icon
-                        Component.literal("Your First Dirt Block"), // The title
+                        Component.literal("Your First Substance"), // The title
                         Component.literal("Now make a three by three"), // The description
                         ResourceLocation.withDefaultNamespace("textures/gui/advancements/backgrounds/adventure.png"), // Background image used
                         AdvancementType.TASK, // Options: TASK, CHALLENGE, GOAL
@@ -38,7 +38,7 @@ class AdvancementsProvider extends FabricAdvancementProvider {
                         false // Hidden in the advancement tab
                 )
                 // The first string used in criterion is the name referenced by other advancements when they want to have 'requirements'
-                .addCriterion("got_dirt", InventoryChangeTrigger.TriggerInstance.hasItems(Items.DIRT))
+                .addCriterion("got_suspicious", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.SUSPICIOUS_SUBSTANCE))
                 .save(consumer, named("root"));
     }
 }
