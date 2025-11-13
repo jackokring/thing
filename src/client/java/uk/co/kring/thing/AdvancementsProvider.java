@@ -36,7 +36,7 @@ class AdvancementsProvider extends FabricAdvancementProvider {
                         ResourceLocation.withDefaultNamespace("textures/gui/advancements/backgrounds/adventure.png"),
                 type,
                 true, true, false
-        ).addCriterion(icon.asItem().getDescriptionId(), trigger);// easy ID for criterion progression
+        ).addCriterion("has_" + name, trigger);// easy ID for criterion progression
         return ab.save(consumer, named(name));
     }
     
