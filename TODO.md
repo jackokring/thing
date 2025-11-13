@@ -5,7 +5,6 @@
 * Enchantment
 * Mixin Enderman holding blocks randomizer tick based
 * Entities / Block Entities
-* Key Binds
 * Custom Book
 * Javadocs Improve
 * Decide v1.0.1 Release

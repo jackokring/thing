@@ -28,6 +28,7 @@ class LangProviderEnglish extends FabricLanguageProvider {
     }
 
     void generateItem(TranslationBuilder builder, ItemLike item, String translation, String tooltip) {
+        // automatically does blocks as ItemLike
         builder.add(item.asItem().getDescriptionId(), translation);
         if(tooltip != null)
             builder.add(ThingClient.tooltipKey(item), tooltip);
@@ -42,6 +43,10 @@ class LangProviderEnglish extends FabricLanguageProvider {
     void generateAdvancement(TranslationBuilder builder, String key, String title, String description) {
         builder.add("advancement." + Thing.MOD_ID + "." + key + ".title", title);
         builder.add("advancement." + Thing.MOD_ID + "." + key + ".description", description);
+    }
+
+    void generateKeyMapping(TranslationBuilder builder, String key, String translation) {
+        builder.add(ThingClient.keyName(key), translation);
     }
 
     @Override
@@ -63,5 +68,8 @@ class LangProviderEnglish extends FabricLanguageProvider {
 
         // advancements
         generateAdvancement(builder, "root", "Your First Suspicions", "Make a three by three");
+
+        // keys
+        generateKeyMapping(builder, "spook", "SpookyKey");
     }
 }

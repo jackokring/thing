@@ -42,7 +42,9 @@ class AdvancementsProvider extends FabricAdvancementProvider {
     
     @Override
     public void generateAdvancement(HolderLookup.Provider provider, Consumer<AdvancementHolder> consumer) {
-        advancement(consumer, "root", null, ModItems.SUSPICIOUS_SUBSTANCE,
+        // a simplified chain based on unique icons for criterion names and parent assignment for tree
+        // flexible enough for most things I'd do
+        AdvancementHolder root = advancement(consumer, "root", null, ModItems.SUSPICIOUS_SUBSTANCE,
                 AdvancementType.TASK, InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.SUSPICIOUS_SUBSTANCE));
     }
 }

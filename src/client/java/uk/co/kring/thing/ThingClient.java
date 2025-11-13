@@ -1,6 +1,7 @@
 package uk.co.kring.thing;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.Command;
 import eu.pb4.placeholders.api.parsers.TagParser;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -9,15 +10,19 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.fabricmc.fabric.api.client.message.v1.ClientSendMessageEvents;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;
@@ -39,6 +44,11 @@ public class ThingClient implements ClientModInitializer {
     static String tooltipKey(ItemLike item) {
         return item.asItem().getDescriptionId() + ".tooltip";
     }
+
+    static String keyName(String name) { return "key." + Thing.MOD_ID + "." + name; }
+
+    static KeyMapping keyBinding;
+    static final KeyMapping.Category KEY_CATEGORY = KeyMapping.Category.register(Thing.identify("key"));
 
     static ModConfig CONFIG;
     static SecretKey KEY;
@@ -84,6 +94,20 @@ public class ThingClient implements ClientModInitializer {
             //ClientReceiveMessageEvents.MODIFY_GAME
             ClientSendMessageEvents.MODIFY_CHAT.register(this::encryptChatMessage);
             //ClientSendMessageEvents.MODIFY_COMMAND
+        });
+
+        keyBinding = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+                keyName("spook"), // The translation key of the keybinding's name
+                InputConstants.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
+                GLFW.GLFW_KEY_R, // The keycode of the key
+                KEY_CATEGORY // The category of the key - you'll need to add a translation for this!
+        ));
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            while (keyBinding.isDown()) {
+                if(client.player != null)
+                    client.player.displayClientMessage(Component.literal("Key 1 was pressed!"), false);
+            }
         });
     }
 
