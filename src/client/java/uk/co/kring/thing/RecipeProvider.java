@@ -43,10 +43,10 @@ public class RecipeProvider extends FabricRecipeProvider {
                         .pattern("p  ")
                         .define('p', Items.PAPER)
                         .define('s', Items.STRING)
-                        .define('i', Items.IRON_INGOT)
+                        .define('i', Items.COPPER_INGOT)
                         .unlockedBy(getHasName(Items.PAPER), has(Items.PAPER))
                         .unlockedBy(getHasName(Items.STRING), has(Items.STRING))
-                        .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
+                        .unlockedBy(getHasName(Items.COPPER_INGOT), has(Items.COPPER_INGOT))
                         .save(exporter);
             }
         };

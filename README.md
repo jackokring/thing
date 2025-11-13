@@ -10,8 +10,8 @@ symbols.
 * Some mod lists to maybe work as a modpack
 * The `Suspicious Substance` (reduce, reuse, recycle)
 * Some chat encryption and `op` marking at the server
-* Just added craftable name tag data generation shaped recipe similar to
-  * [`craftable-nametag`](https://modrinth.com/datapack/craftable-nametag) - Useful to name things using low iron, spare string, paper 
+* Just added craftable name tag data generation shaped recipe similar to [`craftable-nametag`](https://modrinth.com/datapack/craftable-nametag) using copper,
+string and paper 
 
 ## Easy Development
 
