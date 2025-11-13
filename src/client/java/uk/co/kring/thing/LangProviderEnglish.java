@@ -39,6 +39,11 @@ class LangProviderEnglish extends FabricLanguageProvider {
             builder.add("text.autoconfig." + Thing.MOD_ID + "." + key + ".@Tooltip", tooltip);
     }
 
+    void generateAdvancement(TranslationBuilder builder, String key, String title, String description) {
+        builder.add("advancement." + Thing.MOD_ID + "." + key + ".title", title);
+        builder.add("advancement." + Thing.MOD_ID + "." + key + ".description", description);
+    }
+
     @Override
     public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder builder) {
         // ModMenu language adaptation (removed text from fabric.mod.json)
@@ -50,9 +55,13 @@ class LangProviderEnglish extends FabricLanguageProvider {
         generateItem(builder, ModItems.SUSPICIOUS_SUBSTANCE, "Suspicious Substance", "A powerful substance");
         generateItem(builder, ModBlocks.SUSPICIOUS_DIRT, "Suspicious Dirt", "Very, very suspicious dirt");
 
+        // config
         generateConfig(builder, "title", "Thing Settings", null);
         generateConfig(builder, "category.chat", "Chat Settings", null);
         generateConfig(builder,"option.cryptEnabled", "Enable Chat Encryption", "Encrypt outgoing chat using a passphrase");
         generateConfig(builder, "option.key", "AES Cryptographic Key", "Set this to a passphrase to make a key");
+
+        // advancements
+        generateAdvancement(builder, "root", "Your First Suspicions", "Make a three by three");
     }
 }

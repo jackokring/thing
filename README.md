@@ -10,7 +10,7 @@ symbols.
 * Some mod lists to maybe work as a modpack
 * The `Suspicious Substance` (reduce, reuse, recycle)
 * Some chat encryption and `op` marking at the server
-* Just added craftable name tag data generation shaped recipe
+* Just added craftable name tag data generation shaped recipe similar to
   * [`craftable-nametag`](https://modrinth.com/datapack/craftable-nametag) - Useful to name things using low iron, spare string, paper 
 
 ## Easy Development
@@ -74,9 +74,7 @@ So for **2025** there's these:
 * [`easyauth`](https://modrinth.com/mod/easyauth) - Server authentication plugin (Only servers)
 * [`eiv-fabric`](https://modrinth.com/mod/eiv) - Extended ItemView for finding resource recipes **API**
   * No designs to make other craft formats, so **API** not used yet 
-* [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use (Dependency, but uses mod folder copy)
-* [`fadeless`](https://modrinth.com/mod/fadeless) - Optimization by eliminating cuts/fades
-  * Disabled due to logging an ERROR in a metadata format  
+* [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use (Dependency, but uses mod folder copy) 
 * [`ferritecore`](https://modrinth.com/mod/ferrite-core) - Some Java memory optimizations
 * [`Jade`](https://modrinth.com/mod/jade) - Block/Entity ID on HUD
 * [`lithium`](https://modrinth.com/mod/lithium) - Various CPU optimizations
@@ -96,6 +94,7 @@ guy. I'd likely use such a thing for some mod AI experimentation anyway.
 ## Networking and Multiplayer Modes
 
 * [`locator-heads`](https://modrinth.com/mod/locator-heads) - Nice for online play
+  * Disabled in build due to "competing" `DataGenerator` run "deleting" the generated files
 * [`NoChatReports`](https://modrinth.com/mod/no-chat-reports) - For controversial chat reporting (Adults assumed)
 
 ## Other Useful Links
