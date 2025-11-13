@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"uk.co.kring.thing.mixin","l":"ExampleMixin"},{"p":"uk.co.kring.thing","l":"Thing"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"uk.co.kring.thing","l":"EivIntegration"},{"p":"uk.co.kring.thing.mixin","l":"ExampleMixin"},{"p":"uk.co.kring.thing","l":"Thing"}];updateSearchResults();

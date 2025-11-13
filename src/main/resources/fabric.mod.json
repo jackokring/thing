@@ -45,7 +45,6 @@
         "cloth-config": "${cloth_config_version}",
         "placeholder-api": "${placeholder_version}"
     },
-    "# modmenu is optional as you might not want to change the config": false,
     "suggests": {
         "eiv-fabric": "${eiv_version}",
         "mclogs-fabric": "*",

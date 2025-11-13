@@ -8,17 +8,18 @@ import net.minecraft.data.recipes.RecipeOutput;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.NotNull;
 
-public class RecipeDataProvider extends FabricRecipeProvider {
-    protected RecipeDataProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+public class RecipeProvider extends FabricRecipeProvider {
+    protected RecipeProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         // Specifying en_us is optional, as it's the default language code
         super(dataOutput, registryLookup);
     }
 
     @Override
-    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup, RecipeOutput exporter) {
-        return new RecipeProvider(registryLookup, exporter) {
+    protected net.minecraft.data.recipes.@NotNull RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup, RecipeOutput exporter) {
+        return new net.minecraft.data.recipes.RecipeProvider(registryLookup, exporter) {
             @Override
             public void buildRecipes() {
                 //HolderLookup.RegistryLookup<Item> itemLookup = registries.getOrThrow(Registries.ITEM);
@@ -33,12 +34,26 @@ public class RecipeDataProvider extends FabricRecipeProvider {
                         .requires(ModBlocks.SUSPICIOUS_DIRT)
                         .unlockedBy(getHasName(ModBlocks.SUSPICIOUS_DIRT), has(ModBlocks.SUSPICIOUS_DIRT))
                         .save(exporter);
+
+                // craftable-nametag has a recipe of low iron https://modrinth.com/datapack/craftable-nametag
+                // really just a data generator task needed
+                shaped(RecipeCategory.MISC, Items.NAME_TAG)
+                        .pattern(" si")
+                        .pattern(" ps")
+                        .pattern("p  ")
+                        .define('p', Items.PAPER)
+                        .define('s', Items.STRING)
+                        .define('i', Items.IRON_INGOT)
+                        .unlockedBy(getHasName(Items.PAPER), has(Items.PAPER))
+                        .unlockedBy(getHasName(Items.STRING), has(Items.STRING))
+                        .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
+                        .save(exporter);
             }
         };
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "RecipeProvider";
     }
 }

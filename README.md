@@ -10,6 +10,8 @@ symbols.
 * Some mod lists to maybe work as a modpack
 * The `Suspicious Substance` (reduce, reuse, recycle)
 * Some chat encryption and `op` marking at the server
+* Just added craftable name tag data generation shaped recipe
+  * [`craftable-nametag`](https://modrinth.com/datapack/craftable-nametag) - Useful to name things using low iron, spare string, paper 
 
 ## Easy Development
 
@@ -74,6 +76,7 @@ So for **2025** there's these:
   * No designs to make other craft formats, so **API** not used yet 
 * [`fabric-api`](https://modrinth.com/mod/fabric-api) - Obvious **API** to use (Dependency, but uses mod folder copy)
 * [`fadeless`](https://modrinth.com/mod/fadeless) - Optimization by eliminating cuts/fades
+  * Disabled due to logging an ERROR in a metadata format  
 * [`ferritecore`](https://modrinth.com/mod/ferrite-core) - Some Java memory optimizations
 * [`Jade`](https://modrinth.com/mod/jade) - Block/Entity ID on HUD
 * [`lithium`](https://modrinth.com/mod/lithium) - Various CPU optimizations
@@ -82,13 +85,6 @@ So for **2025** there's these:
 * [`placeholder-api`](https://modrinth.com/mod/placeholder-api) - Useful string macros **API** (Added as dependency)
 * [`Scribble`](https://modrinth.com/mod/scribble) - Easier book editing interface
 * [`StackDeobfuscatorFabric`](https://modrinth.com/mod/stackdeobf) - For better stack traces on errors
-
-## Other Change Game Mechanics Mods
-
-These mods are in a separate list as they do change some game mechanic and not just the UI. It could be
-said that a UI change does alter timing of events, but this is like saying pause is ruining games.
-
-* [`craftable-nametag`](https://modrinth.com/datapack/craftable-nametag) - Useful to name things in game
 
 ## Graphical Mods
 
@@ -101,7 +97,6 @@ guy. I'd likely use such a thing for some mod AI experimentation anyway.
 
 * [`locator-heads`](https://modrinth.com/mod/locator-heads) - Nice for online play
 * [`NoChatReports`](https://modrinth.com/mod/no-chat-reports) - For controversial chat reporting (Adults assumed)
-* [`ViaFabricPlus`](https://modrinth.com/mod/viafabricplus) - For protocol conversion to older servers
 
 ## Other Useful Links
 
