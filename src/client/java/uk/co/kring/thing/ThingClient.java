@@ -137,7 +137,8 @@ public class ThingClient implements ClientModInitializer {
             if(msg.getKey().equals(chatKey)) {
                 Style style = component.getStyle();
                 String message_content = msg.getArgument(1).getString();
-                String player_name = msg.getArgument(0).getString();
+                // leaving it as formatted text allows hover etc, to work still
+                FormattedText player_name = msg.getArgument(0);
                 if (message_content.startsWith(hidden)) {
                     try {
                         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
