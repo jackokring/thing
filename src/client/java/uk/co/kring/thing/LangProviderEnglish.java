@@ -53,6 +53,7 @@ class LangProviderEnglish extends FabricLanguageProvider {
     public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder builder) {
         // chat provider type debugger on game messages
         builder.add("chat.type.type", "^^^%s^^^");
+        builder.add("chat.type.encrypt", "ENCRYPTION OFF");
 
         // ModMenu language adaptation (removed text from fabric.mod.json)
         builder.add("modmenu.nameTranslation." + Thing.MOD_ID, "Menu o' mods!");
@@ -75,6 +76,6 @@ class LangProviderEnglish extends FabricLanguageProvider {
         generateAdvancement(builder, "root", "Your First Suspicions", "Make a three by three");
 
         // keyBinds
-        generateKeyMapping(builder, "spook", "SpookyKey");
+        generateKeyMapping(builder, "spook", "Encrypt Chat Toggle");
     }
 }

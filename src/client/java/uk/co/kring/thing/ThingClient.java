@@ -102,8 +102,13 @@ public class ThingClient implements ClientModInitializer {
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if(keyBinding.isDown() && client.player != null)
-                client.player.displayClientMessage(Component.literal("Key 1 was pressed!"), false);
+            if(keyBinding.isDown() && client.player != null) {
+                CONFIG.cryptEnabled ^= true;
+                // and ENCRYPTION OFF or hidden ...
+                client.player.displayClientMessage(Component.literal(
+                        encryptChatMessage(Component.translatable("chat.type.encrypt").getString()))
+                        .withStyle(style -> style.withBold(true)), true);
+            }
         });
     }
 
