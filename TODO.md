@@ -3,7 +3,8 @@
 * Advancement Data Generation / Custom Background
 * Potions / Effects
 * Enchantment
-* Mixin Enderman holding blocks randomizer tick based
+* Mixin Enderman holding blocks randomizer tick based?
+* Copper name tag "rusty" nicknamer?
 * Entities / Block Entities
 * Custom Book
 * Javadocs Improve

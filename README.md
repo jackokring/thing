@@ -1,25 +1,25 @@
 # Thing Minecraft Module 1.21.10
 
 A Minecraft Fabric Mod (Open JDK Java 21 recommended). Getting back into modding Minecraft is fun.
-I wonder how the redundancy of `yarn` will go (has gone) now that Mojang has commited to release the source
-symbols.
+I wonder how the redundancy of `yarn` will go (has gone) now that Mojang has committed to release the source
+symbols. They've done the snapshot experimental so there's that.
 
 ## Features
 
 * Some convenience documentation for general modding
-* Some mod lists to maybe work as a modpack
+* Some mod lists to maybe work as a modpack test bench
 * The `Suspicious Substance` (reduce, reuse, recycle)
-* Some chat encryption and `op` marking at the server
-* Just added craftable name tag data generation shaped recipe similar to [`craftable-nametag`](https://modrinth.com/datapack/craftable-nametag) using copper,
+* **Some** chat encryption (client), MiniMessage (client) and `op` level marking (server)
+* Craftable name tag data generation shaped recipe similar to [`craftable-nametag`](https://modrinth.com/datapack/craftable-nametag) using copper,
 string and paper 
-
+---
 ## Easy Development
 
 Apart from `ctrl` + `E`, the fabulous finder of all things including code bookmarks, the following might help to test
 other mods with this one. To build against them, they have to be added to the projects external libraries.
 
 Linking the IDE launcher to your saves after the first run of `M̀inecraft Client` before you
-save anything might be useful. The first launch makes `run/`.
+save anything might be useful. The first launch makes `run/`. It keeps the "test bench" of mods consistent.
 
 ```bash
 rm -rf ~/IdeaProjects/thing/run/saves
@@ -34,7 +34,7 @@ already installed the fabric mod loader to make `mods/` exist
 in your Flatpack install.
 
 You don't need to log in to launch from within IntelliJ IDEA,
-but by default it doesn't access your saved worlds.
+but by default it doesn't access your saved worlds. Important if you have things set up for some testing.
 
 ### Prism Launcher
 
@@ -55,9 +55,13 @@ Although at first the `Data Generation` run configuration would work, it does fa
 dependencies happen. To fix it you have to edit the run configuration and change the working directory to be the
 same as the `Minecraft Client`'s run configuration working directory. Then it actually does work with **API** mods.
 So yes, the correct working directory for `Data Generation` is `run/`, as Minecraft is running to generate the
-`src/main/generated` resources.
+`src/main/generated` resources. This may have been fixed in newer Fabric versions.
 
-## Other Utility or Dependency Mods
+It must be noted that the `Data Generation` run configuration is not mod specific. It may cause issues if your
+test bench of other mods have their own `Data Generation` as it doesn't appear to have definite order, and ALL
+generation tasks from all mods are done, with each thinking it is the one true mod of the datapack gods.
+---
+## Utility or Dependency Mods
 
 Here are some other mods used while developing `thing` which also helps with not duplicating features and with
 some useful APIs. Some of these are marked dependencies. The **API** is locked by version numbers in
@@ -94,9 +98,9 @@ guy. I'd likely use such a thing for some mod AI experimentation anyway.
 ## Networking and Multiplayer Modes
 
 * [`locator-heads`](https://modrinth.com/mod/locator-heads) - Nice for online play
-  * Disabled in build due to "competing" `DataGenerator` run "deleting" the generated files
-* [`NoChatReports`](https://modrinth.com/mod/no-chat-reports) - For controversial chat reporting (Adults assumed)
-
+  * Disabled in build due to a "competing" `Data Generation` run "deleting" the generated files
+* [`NoChatReports`](https://modrinth.com/mod/no-chat-reports) - For controversial chat reporting fixes (Adults assumed)
+---
 ## Other Useful Links
 
 ### Project Related
@@ -110,4 +114,4 @@ guy. I'd likely use such a thing for some mod AI experimentation anyway.
 
 The Mojang/Yarn choice seems to only be Yarn at the moment (2025-11-04) as the Mojang official doesn't seem to find
 all the class imports. Maybe this is some work in progress for the release of obfuscation free code. Maybe Yarn then
-just stabilizes API.
+just stabilizes API. But, I went Mojang anyway, as it's quite a puzzle game finding the **new** names for some things.
