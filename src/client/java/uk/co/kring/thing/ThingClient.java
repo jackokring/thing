@@ -48,8 +48,6 @@ public class ThingClient implements ClientModInitializer {
 
     static String keyName(String name) { return "key." + Thing.MOD_ID + "." + name; }
 
-    static KeyMapping keyBinding;
-
     static ModConfig CONFIG;
     static SecretKey KEY;
     static byte[] SALT = Thing.MOD_ID.getBytes();
@@ -62,8 +60,26 @@ public class ThingClient implements ClientModInitializer {
         KEY = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
     }
 
+    static class Holder<T> {
+        public Holder(T in) {
+            value = in;
+        }
+        public T value;
+    }
+
+    static void debounce(Holder<Boolean> held, KeyMapping key, Minecraft client, Runnable run) {
+        if(!held.value && key.isDown() && client.player != null) {
+            run.run();
+        }
+        held.value = key.isDown();
+    }
+
+    static KeyMapping keyBinding_R;
+    static final Holder<Boolean> held_R = new Holder<Boolean>(false);
+
 	@Override
 	public void onInitializeClient() {
+        // decide any tool tip types for things
         tipSimple(ModItems.SUSPICIOUS_SUBSTANCE);
 
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
@@ -78,6 +94,7 @@ public class ThingClient implements ClientModInitializer {
         AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
+        // commands
         ClientCommandRegistrationCallback.EVENT.register(
                 (dispatcher, registryAccess) ->
                         dispatcher.register(
@@ -93,21 +110,26 @@ public class ThingClient implements ClientModInitializer {
             ClientSendMessageEvents.MODIFY_CHAT.register(this::encryptChatMessage);
         });
 
-        keyBinding = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+        // key binds
+        keyBinding_R = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 keyName("spook"), // The translation key of the keybinding's name
                 InputConstants.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
                 GLFW.GLFW_KEY_R, // The keycode of the key
                 KeyMapping.Category.MISC // The category of the key
         ));
 
+        // key actions
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if(keyBinding.isDown() && client.player != null) {
+            debounce(held_R, keyBinding_R, client, () -> {
                 CONFIG.cryptEnabled ^= true;
                 // and ENCRYPTION OFF or hidden + ENCRYPTION OFF !! :)
+                // this unexpected line is needed to make Java sane
+                // seems it can't prove in the closure
+                assert client.player != null;
                 client.player.displayClientMessage(Thing.withColorBold(Component.literal(
                         encryptChatMessage(Component.translatable(encryptKey).getString())),
                         ChatFormatting.DARK_AQUA, true), true);
-            }
+            });
         });
     }
 
