@@ -189,10 +189,14 @@ public class ThingClient implements ClientModInitializer {
         if(component.getContents() instanceof TranslatableContents msg) {
             // as I think other typing is of various formats
             // and default chat.type.text is "<%s> %s" translatable with 2 args
+            // likely "multiplayer. ..." or in assets/minecraft/lang/en_us.json
             if(msg.getKey().equals(chatKey)) {
                 // could modify this based on a lang file key for a game message that was used
                 return component;
             }
+            if(CONFIG.typeEnabled)
+                Minecraft.getInstance().gui.getChat().addMessage(
+                        Component.translatable("chat.type.type", msg.getKey()));
         }
         return component;
     }

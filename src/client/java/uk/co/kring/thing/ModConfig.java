@@ -11,6 +11,9 @@ class ModConfig implements ConfigData {
     boolean cryptEnabled = false;// as no passphrase yet
     @ConfigEntry.Category("chat")
     @ConfigEntry.Gui.Tooltip()
+    boolean typeEnabled = true;// debug key
+    @ConfigEntry.Category("chat")
+    @ConfigEntry.Gui.Tooltip()
     String key = "";
 
     @Override
