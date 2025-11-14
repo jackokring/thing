@@ -107,6 +107,9 @@ guy. I'd likely use such a thing for some mod AI experimentation anyway.
 
 * [`Javadocs`](https://jackokring.github.io/thing/) - HTML javadocs (manual gradle build)
   * Setup using a GitHub pages custom action (static build) and altering the `path:` to `./build/docs/javadoc`
+  * Note that by default only the `main` common code is used, `client` is ignored (2025-11-14), which is strange as
+  the `client` code can use `main` but not vice versa (occasional `static` things like constants or utility methods)
+  * I suppose `client` libraries are discouraged, or some misconfiguration has to be fixed
 * [`Jars`](build/libs) - Here are `.jar` files (manual gradle build)
   * You'll have to click tro select, and then download the raw `.jar`
 
