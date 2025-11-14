@@ -21,6 +21,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.level.ItemLike;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -79,19 +80,17 @@ public class ThingClient implements ClientModInitializer {
         CONFIG = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
 
         ClientCommandRegistrationCallback.EVENT.register(
-                (dispatcher, registryAccess) -> {
-            dispatcher.register(
-                    ClientCommandManager.literal("clienttater").executes(context -> {
-                context.getSource().sendFeedback(Component.literal("Called /clienttater with no arguments."));
-                return Command.SINGLE_SUCCESS;
-            }));
-        });
+                (dispatcher, registryAccess) ->
+                        dispatcher.register(
+                        ClientCommandManager.literal("client_thing").executes(context -> {
+                    context.getSource().sendFeedback(Component.literal("Called /client_thing with no arguments."));
+                    return Command.SINGLE_SUCCESS;
+                })));
 
         // Chat interceptor
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
-            // Register event listener for ClientTickEvents.END_CLIENT_TICK
             ClientReceiveMessageEvents.ALLOW_CHAT.register(this::decryptChatMessage);
-            //ClientReceiveMessageEvents.MODIFY_GAME
+            ClientReceiveMessageEvents.MODIFY_GAME.register(this::modifyGameMessage);
             ClientSendMessageEvents.MODIFY_CHAT.register(this::encryptChatMessage);
             //ClientSendMessageEvents.MODIFY_COMMAND
         });
@@ -104,10 +103,8 @@ public class ThingClient implements ClientModInitializer {
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (keyBinding.isDown()) {
-                if(client.player != null)
-                    client.player.displayClientMessage(Component.literal("Key 1 was pressed!"), false);
-            }
+            if(keyBinding.isDown() && client.player != null)
+                client.player.displayClientMessage(Component.literal("Key 1 was pressed!"), false);
         });
     }
 
@@ -130,29 +127,36 @@ public class ThingClient implements ClientModInitializer {
     // https://git.brn.systems/BRNSystems/chatencryptor/src/branch/main/src/main/java/systems/brn/chatencryptor/SecureChat.java
     // Under MIT Licence, but with some adaptations to use cloth config, 1.21.10 and kind of MiniMessage formatting
 
+    // basic chat key
+    static final String chatKey = "chat.type.text";
+
     boolean decryptChatMessage(Component component, @Nullable PlayerChatMessage playerChatMessage, @Nullable GameProfile gameProfile, ChatType.Bound bound, Instant instant) {
-        if(bound.chatType().is(ChatType.CHAT) && component.getContents() instanceof TranslatableContents msg) { // as I think other typing is of various formats
-            Style style = component.getStyle();
-            String message_content = msg.getArgument(1).getString();
-            String player_name = msg.getArgument(0).getString();
-            if (message_content.startsWith(hidden)) {
-                try {
-                    Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-                    cipher.init(Cipher.DECRYPT_MODE, KEY);
-                    String strippedMessage = message_content.substring(2);
-                    byte[] decodedMessage = Base64.getDecoder().decode(strippedMessage);
-                    cipher.update(decodedMessage);
-                    // I just like being explicit and bad UTF-8 is wrong key indicator
-                    CharsetDecoder cd = StandardCharsets.UTF_8.newDecoder();
-                    String decryptedMessage = cd.decode(ByteBuffer.wrap(cipher.doFinal())).toString();
-                    // That was a bit of a find in the Mojang mappings
-                    Minecraft.getInstance().gui.getChat().addMessage(Component.translatable("chat.type.text",
-                            player_name, decryptedMessage).setStyle(style)); // maintain style of component
-                    return false;
-                } catch (IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException |
-                         NoSuchPaddingException | CharacterCodingException | // Less bad decode prints
-                         InvalidKeyException | IllegalArgumentException e) {// Also base64 decode fails
-                    return true;
+        if(component.getContents() instanceof TranslatableContents msg) {
+            // as I think other typing is of various formats
+            // and default chat.type.text is "<%s> %s" translatable with 2 args
+            if(msg.getKey().equals(chatKey)) {
+                Style style = component.getStyle();
+                String message_content = msg.getArgument(1).getString();
+                String player_name = msg.getArgument(0).getString();
+                if (message_content.startsWith(hidden)) {
+                    try {
+                        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+                        cipher.init(Cipher.DECRYPT_MODE, KEY);
+                        String strippedMessage = message_content.substring(2);
+                        byte[] decodedMessage = Base64.getDecoder().decode(strippedMessage);
+                        cipher.update(decodedMessage);
+                        // I just like being explicit and bad UTF-8 is wrong key indicator
+                        CharsetDecoder cd = StandardCharsets.UTF_8.newDecoder();
+                        String decryptedMessage = cd.decode(ByteBuffer.wrap(cipher.doFinal())).toString();
+                        // That was a bit of a find in the Mojang mappings
+                        Minecraft.getInstance().gui.getChat().addMessage(Component.translatable(chatKey,
+                                player_name, decryptedMessage).setStyle(style)); // maintain style of component
+                        return false;
+                    } catch (IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException |
+                             NoSuchPaddingException | CharacterCodingException | // Less bad decode prints
+                             InvalidKeyException | IllegalArgumentException e) {// Also base64 decode fails
+                        return true;
+                    }
                 }
             }
         }
@@ -177,5 +181,18 @@ public class ThingClient implements ClientModInitializer {
         } else {
             return message;
         }
+    }
+
+    Component modifyGameMessage(@NotNull Component component, boolean overlayInBar) {
+        // to modify game messages
+        if(component.getContents() instanceof TranslatableContents msg) {
+            // as I think other typing is of various formats
+            // and default chat.type.text is "<%s> %s" translatable with 2 args
+            if(msg.getKey().equals(chatKey)) {
+                // could modify this based on a lang file key for a game message that was used
+                return component;
+            }
+        }
+        return component;
     }
 }
