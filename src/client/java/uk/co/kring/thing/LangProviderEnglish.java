@@ -80,5 +80,6 @@ class LangProviderEnglish extends FabricLanguageProvider {
 
         // keyBinds
         generateKeyMapping(builder, "spook", "Encrypt Chat Toggle");
+        generateKeyMapping(builder, "types", "Show Type Prefix Toggle");
     }
 }

@@ -76,6 +76,9 @@ public class ThingClient implements ClientModInitializer {
     static KeyMapping keyBinding_R;
     static final Holder<Boolean> held_R = new Holder<Boolean>(false);
 
+    static KeyMapping keyBinding_Y;
+    static final Holder<Boolean> held_Y = new Holder<Boolean>(false);
+
 	@Override
 	public void onInitializeClient() {
         // decide any tool tip types for things
@@ -116,6 +119,11 @@ public class ThingClient implements ClientModInitializer {
                 GLFW.GLFW_KEY_R, // The keycode of the key
                 KeyMapping.Category.MISC // The category of the key
         ));
+        keyBinding_Y = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+                keyName("types"),
+                GLFW.GLFW_KEY_Y, // The keycode of the key
+                KeyMapping.Category.MISC // The category of the key
+        ));
 
         // key actions
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -128,6 +136,10 @@ public class ThingClient implements ClientModInitializer {
                 client.player.displayClientMessage(Thing.withColorBold(Component.literal(
                         encryptChatMessage(Component.translatable(encryptKey).getString())),
                         ChatFormatting.DARK_AQUA, true), true);
+            });
+            debounce(held_Y, keyBinding_Y, client, () -> {
+                CONFIG.typeEnabled ^= true;
+                // types in chat as prefix messages
             });
         });
     }
