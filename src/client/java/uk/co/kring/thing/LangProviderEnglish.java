@@ -73,6 +73,7 @@ class LangProviderEnglish extends FabricLanguageProvider {
         generateConfig(builder,"option.cryptEnabled", "Enable Chat Encryption", "Encrypt outgoing chat using a passphrase");
         generateConfig(builder, "option.key", "AES Cryptographic Key", "Set this to a passphrase to make a key");
         generateConfig(builder, "option.typeEnabled", "Enable Message Types", "Set to show internal translation keys");
+        generateConfig(builder, "option.galacticEnabled", "Enable Undecoded Intercepts", "Set to show who sent an encrypted intercept");
 
         // advancements
         generateAdvancement(builder, "root", "Your First Suspicions", "Make a three by three");

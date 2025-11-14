@@ -14,6 +14,9 @@ class ModConfig implements ConfigData {
     boolean typeEnabled = true;// debug key
     @ConfigEntry.Category("chat")
     @ConfigEntry.Gui.Tooltip()
+    boolean galacticEnabled = true;// show intercepts
+    @ConfigEntry.Category("chat")
+    @ConfigEntry.Gui.Tooltip()
     String key = "";
 
     @Override

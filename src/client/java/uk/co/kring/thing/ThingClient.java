@@ -162,7 +162,7 @@ public class ThingClient implements ClientModInitializer {
         if(component.getContents() instanceof TranslatableContents msg) {
             // as I think other typing is of various formats
             // and default chat.type.text is "<%s> %s" translatable with 2 args
-            if(msg.getKey().equals(chatKey)) {
+            if(msg.getKey().equals(chatKey) || msg.getKey().equals(talkKey)) {
                 Style style = component.getStyle();
                 String message_content = msg.getArgument(1).getString();
                 // leaving it as formatted text allows hover etc., to work still
@@ -178,20 +178,20 @@ public class ThingClient implements ClientModInitializer {
                         CharsetDecoder cd = StandardCharsets.UTF_8.newDecoder();
                         String decryptedMessage = cd.decode(ByteBuffer.wrap(cipher.doFinal())).toString();
                         // That was a bit of a find in the Mojang mappings
-                        Minecraft.getInstance().gui.getChat().addMessage(Component.translatable(chatKey,
+                        Minecraft.getInstance().gui.getChat().addMessage(Component.translatable(msg.getKey(),
                                 player_name, decryptedMessage).setStyle(style)); // maintain style of component
                         return false;
                     } catch (IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException |
                              NoSuchPaddingException | CharacterCodingException | // Less bad decode prints
                              InvalidKeyException | IllegalArgumentException e) {// Also base64 decode fails
-                        return true;
+                        if(msg.getKey().equals(talkKey) && CONFIG.galacticEnabled) {
+                            Minecraft.getInstance().gui.getChat().addMessage(Component.translatable(talkKey,
+                                    msg.getArgument(0), Component.translatable(galacticKey))); // avoid spaz speech
+                            return false;
+                        }
+                        return CONFIG.galacticEnabled;//remove some chatter
                     }
                 }
-            }
-            if(msg.getKey().equals(talkKey) && msg.getArgument(1).getString().startsWith(hidden)) {
-                Minecraft.getInstance().gui.getChat().addMessage(Component.translatable(talkKey,
-                        msg.getArgument(0), Component.translatable(galacticKey))); // avoid spaz speech
-                return false;
             }
 
             // show message formats not intercepted
