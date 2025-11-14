@@ -52,8 +52,10 @@ class LangProviderEnglish extends FabricLanguageProvider {
     @Override
     public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder builder) {
         // chat provider type debugger on game messages
-        builder.add("chat.type.type", "^^^%s^^^");
-        builder.add("chat.type.encrypt", "ENCRYPTION OFF");
+        builder.add(ThingClient.getTypeKey("type"), "{ \"translate\": \"%s\" }");
+        builder.add(ThingClient.getTypeKey("encrypt"), "ENCRYPTION OFF");
+        builder.add(ThingClient.getTypeKey("exception"), "Encryption exception: %s");
+        builder.add(ThingClient.getTypeKey("talk.galactic"), "something encrypted");
 
         // ModMenu language adaptation (removed text from fabric.mod.json)
         builder.add("modmenu.nameTranslation." + Thing.MOD_ID, "Menu o' mods!");

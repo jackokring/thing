@@ -91,7 +91,6 @@ public class ThingClient implements ClientModInitializer {
             ClientReceiveMessageEvents.ALLOW_CHAT.register(this::decryptChatMessage);
             ClientReceiveMessageEvents.MODIFY_GAME.register(this::modifyGameMessage);
             ClientSendMessageEvents.MODIFY_CHAT.register(this::encryptChatMessage);
-            //ClientSendMessageEvents.MODIFY_COMMAND
         });
 
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyMapping(
@@ -104,10 +103,10 @@ public class ThingClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if(keyBinding.isDown() && client.player != null) {
                 CONFIG.cryptEnabled ^= true;
-                // and ENCRYPTION OFF or hidden ...
-                client.player.displayClientMessage(Component.literal(
-                        encryptChatMessage(Component.translatable("chat.type.encrypt").getString()))
-                        .withStyle(style -> style.withBold(true)), true);
+                // and ENCRYPTION OFF or hidden + ENCRYPTION OFF !! :)
+                client.player.displayClientMessage(Thing.withColorBold(Component.literal(
+                        encryptChatMessage(Component.translatable(encryptKey).getString())),
+                        ChatFormatting.DARK_AQUA, true), true);
             }
         });
     }
@@ -131,10 +130,35 @@ public class ThingClient implements ClientModInitializer {
     // https://git.brn.systems/BRNSystems/chatencryptor/src/branch/main/src/main/java/systems/brn/chatencryptor/SecureChat.java
     // Under MIT Licence, but with some adaptations to use cloth config, 1.21.10 and kind of MiniMessage formatting
 
-    // basic chat key
-    static final String chatKey = "chat.type.text";
+    static String getTypeKey(String type) {
+        return "chat.type." + type;
+    }
+    // basic chat keys
+    // N.B. only public simple chatting is encrypted. PMs are "private" and hence not of encrypted need beyond
+    // gaming provision. Generally you'd assume it's more of a public watershed technology and NOT a reason
+    // to be creepy to someone who'd have the key anyway, if it were such as it would've been.
 
-    boolean decryptChatMessage(Component component, @Nullable PlayerChatMessage playerChatMessage, @Nullable GameProfile gameProfile, ChatType.Bound bound, Instant instant) {
+    static final String typeKey = getTypeKey("type");// { \"translate\": \"%s\" } -- OK, writes above message type applies to
+    //static final String adminKey = getTypeKey("admin");// [%s: %s]
+    //static final String challengeKey = getTypeKey("advancement.challenge");// %s has completed the challenge %s
+    //static final String goalKey = getTypeKey("advancement.goal");// %s has reached the goal %s
+    //static final String taskKey = getTypeKey("advancement.task");// %s has made the advancement %s
+    //static final String announceKey = getTypeKey("announcement");// [%s] %s
+    //static final String emoteKey = getTypeKey("emote");// * %s %s
+    static final String chatKey = getTypeKey("text");// <%s> %s -- OK
+    static final String talkKey = getTypeKey("text.narrate");// %s says %s
+    static final String galacticKey = getTypeKey("talk.galactic");// something encrypted
+    static final String exceptionKey = getTypeKey("exception");// Encryption exception: %s
+    static final String encryptKey = getTypeKey("encrypt");// ENCRYPTION OFF -- OK
+
+    static void printType(TranslatableContents message) {
+        if(CONFIG.typeEnabled)
+            Minecraft.getInstance().gui.getChat().addMessage(
+                    Thing.withColorBold(Component.translatable(typeKey, message.getKey()), ChatFormatting.DARK_AQUA, false));
+    }
+
+    boolean decryptChatMessage(Component component, @Nullable PlayerChatMessage playerChatMessage,
+                               @Nullable GameProfile gameProfile, ChatType.Bound bound, Instant instant) {
         if(component.getContents() instanceof TranslatableContents msg) {
             // as I think other typing is of various formats
             // and default chat.type.text is "<%s> %s" translatable with 2 args
@@ -164,6 +188,14 @@ public class ThingClient implements ClientModInitializer {
                     }
                 }
             }
+            if(msg.getKey().equals(talkKey) && msg.getArgument(1).getString().startsWith(hidden)) {
+                Minecraft.getInstance().gui.getChat().addMessage(Component.translatable(talkKey,
+                        msg.getArgument(0), Component.translatable(galacticKey))); // avoid spaz speech
+                return false;
+            }
+
+            // show message formats not intercepted
+            printType(msg);
         }
         return true;
     }
@@ -180,7 +212,8 @@ public class ThingClient implements ClientModInitializer {
                 encodedMessage = Base64.getEncoder().encodeToString(encryptedMessage);
             } catch (IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException |
                      NoSuchAlgorithmException | InvalidKeyException e) {
-                return "";
+                return Thing.withColorBold(Component.translatable(exceptionKey, message),
+                        ChatFormatting.AQUA, false).getString();
             }
             return hidden + encodedMessage;
         } else {
@@ -194,13 +227,12 @@ public class ThingClient implements ClientModInitializer {
             // as I think other typing is of various formats
             // and default chat.type.text is "<%s> %s" translatable with 2 args
             // likely "multiplayer. ..." or in assets/minecraft/lang/en_us.json
-            if(msg.getKey().equals(chatKey)) {
-                // could modify this based on a lang file key for a game message that was used
+            if(msg.getKey().equals(encryptKey)) {
+                // this type is from the mod so it doesn't need a print out of type
                 return component;
             }
-            if(CONFIG.typeEnabled)
-                Minecraft.getInstance().gui.getChat().addMessage(
-                        Component.translatable("chat.type.type", msg.getKey()));
+            // show message formats not intercepted
+            printType(msg);
         }
         return component;
     }

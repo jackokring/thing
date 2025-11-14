@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.message.v1.ServerMessageDecoratorEvent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -48,6 +49,10 @@ public class Thing implements ModInitializer {
         if(entity == null) return in;
         // Server side replacements (any entity centric)
         return Placeholders.parseText(in, PlaceholderContext.of(entity));
+    }
+
+    static MutableComponent withColorBold(MutableComponent message, ChatFormatting color, boolean bold) {
+        return message.withStyle(style -> style.withColor(color).withBold(bold));
     }
 
     @Override
@@ -88,17 +93,13 @@ public class Thing implements ModInitializer {
                 if(op != null) {
                     switch (op.getLevel()) {
                         // owner
-                        case Commands.LEVEL_OWNERS: return message.copy().withStyle(style ->
-                                style.withColor(ChatFormatting.GOLD).withBold(true));
+                        case Commands.LEVEL_OWNERS: return withColorBold(message.copy(), ChatFormatting.GOLD, true);
                         // administrator
-                        case Commands.LEVEL_ADMINS: return message.copy().withStyle(style ->
-                                style.withColor(ChatFormatting.GOLD));
+                        case Commands.LEVEL_ADMINS: return withColorBold(message.copy(), ChatFormatting.GOLD, false);
                         // gamemaster
-                        case Commands.LEVEL_GAMEMASTERS: return message.copy().withStyle(style ->
-                                style.withColor(ChatFormatting.RED).withBold(true));
+                        case Commands.LEVEL_GAMEMASTERS: return withColorBold(message.copy(), ChatFormatting.RED, true);
                         // moderator
-                        case Commands.LEVEL_MODERATORS: return message.copy().withStyle(style ->
-                                style.withColor(ChatFormatting.RED));
+                        case Commands.LEVEL_MODERATORS: return withColorBold(message.copy(), ChatFormatting.RED, false);
                         default: break; // maybe ??
                     }
                 }
