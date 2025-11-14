@@ -1,7 +1,6 @@
 package uk.co.kring.thing;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.brigadier.Command;
 import eu.pb4.placeholders.api.parsers.TagParser;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -113,7 +112,7 @@ public class ThingClient implements ClientModInitializer {
         // key binds
         keyBinding_R = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 keyName("spook"), // The translation key of the keybinding's name
-                InputConstants.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
+                //InputConstants.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
                 GLFW.GLFW_KEY_R, // The keycode of the key
                 KeyMapping.Category.MISC // The category of the key
         ));
