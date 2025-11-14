@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 class LangProviderEnglish extends FabricLanguageProvider {
     protected LangProviderEnglish(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         // Specifying en_us is optional, as it's the default language code
-        super(dataOutput, "en_gb", registryLookup);
+        super(dataOutput, "en_us", registryLookup);
     }
 
     void generateItem(TranslationBuilder builder, ItemLike item, String translation, String tooltip) {
@@ -74,7 +74,7 @@ class LangProviderEnglish extends FabricLanguageProvider {
         // advancements
         generateAdvancement(builder, "root", "Your First Suspicions", "Make a three by three");
 
-        // keys
+        // keyBinds
         generateKeyMapping(builder, "spook", "SpookyKey");
     }
 }

@@ -49,7 +49,6 @@ public class ThingClient implements ClientModInitializer {
     static String keyName(String name) { return "key." + Thing.MOD_ID + "." + name; }
 
     static KeyMapping keyBinding;
-    static final KeyMapping.Category KEY_CATEGORY = KeyMapping.Category.register(Thing.identify("key"));
 
     static ModConfig CONFIG;
     static SecretKey KEY;
@@ -99,7 +98,7 @@ public class ThingClient implements ClientModInitializer {
                 keyName("spook"), // The translation key of the keybinding's name
                 InputConstants.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
                 GLFW.GLFW_KEY_R, // The keycode of the key
-                KEY_CATEGORY // The category of the key - you'll need to add a translation for this!
+                KeyMapping.Category.MISC // The category of the key
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -137,7 +136,7 @@ public class ThingClient implements ClientModInitializer {
             if(msg.getKey().equals(chatKey)) {
                 Style style = component.getStyle();
                 String message_content = msg.getArgument(1).getString();
-                // leaving it as formatted text allows hover etc, to work still
+                // leaving it as formatted text allows hover etc., to work still
                 FormattedText player_name = msg.getArgument(0);
                 if (message_content.startsWith(hidden)) {
                     try {
