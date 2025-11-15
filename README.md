@@ -1,4 +1,4 @@
-# Thing Minecraft Module 1.21.10
+# The Thing Minecraft Fabric Mod for 1.21.10
 
 A Minecraft Fabric Mod (Open JDK Java 21 recommended). Getting back into modding Minecraft is fun.
 I wonder how the redundancy of `yarn` will go (has gone) now that Mojang has committed to release the source
@@ -9,7 +9,8 @@ an all I make in one mod. I may release (or will have, have or had released) var
 when I get there (or got there). Generic time independent documentation is difficult. Although not half as difficult
 as mass independent physics.
 
-I couldn't decide a name and so `thing` came to my mined. I hope `Mojang` doesn't mined. Ah, the jokes!
+I couldn't decide a name and so `thing` came to my mined. I hope `Mojang` doesn't mined. Ah, the jokes! I can feel the
+Arctic Carpenter Crafting Christmas crowd vibes in the air.
 
 ## Features
 
@@ -35,6 +36,7 @@ can't use the client parts, as well, it's the server. The list will expand as `t
 * All `/op` levels get colored and styled chat marking
 * Craftable name tag shaped recipe similar to [`craftable-nametag`](https://modrinth.com/datapack/craftable-nametag) using a copper ingot instead of an iron ingot,
 with some string and paper
+* An advancement chain for some progression
 
 ---
 ## Easy Development
@@ -121,11 +123,20 @@ more the personal taste of people, so few if any are included here. Then there's
 it will likely spill into Java Edition. I as of **2025** only have an Intel NUC, so I'm not a melted connector GFX
 guy. I'd likely use such a thing for some mod AI experimentation anyway.
 
+* [`VanillaTeaks`](/VanillaTweaks_rp423050_MC1.21.x.zip) - I'm using these, but they're not strictly a mod in the `.java` sense
+  * They're not even per world, but are instance based
+
 ## Networking and Multiplayer Modes
+
+As I'm building a few lists of mods, then these should go here. I can't say I play online much, but the aim is testing.
+I'd like not to throw exceptions or have bug incompatibilities with these mods.
 
 * [`locator-heads`](https://modrinth.com/mod/locator-heads) - Nice for online play
   * Disabled in build due to a "competing" `Data Generation` run "deleting" the generated files
 * [`NoChatReports`](https://modrinth.com/mod/no-chat-reports) - For controversial chat reporting fixes (Adults assumed)
+* [`viewdistancefix-fabric`](https://modrinth.com/mod/view-distance-fix) - Fog fix for server lower render distance
+* [`voicechat-fabric`](https://modrinth.com/plugin/simple-voice-chat) - Simple voice chat
+  * This one does make me giggle and think of corporate COVID-19 times
 
 ---
 
@@ -146,3 +157,9 @@ guy. I'd likely use such a thing for some mod AI experimentation anyway.
 The Mojang/Yarn choice seems to only be Yarn at the moment (2025-11-04) as the Mojang official doesn't seem to find
 all the class imports. Maybe this is some work in progress for the release of obfuscation free code. Maybe Yarn then
 just stabilizes API. But, I went Mojang anyway, as it's quite a puzzle game finding the **new** names for some things.
+
+---
+
+## Contributors
+
+Author: Simon Jackson
