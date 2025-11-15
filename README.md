@@ -2,16 +2,40 @@
 
 A Minecraft Fabric Mod (Open JDK Java 21 recommended). Getting back into modding Minecraft is fun.
 I wonder how the redundancy of `yarn` will go (has gone) now that Mojang has committed to release the source
-symbols. They've done the snapshot experimental so there's that.
+symbols. They've done the snapshot experimental open-ish but EULA no mappings needed, so there's that.
+
+This mod is what I put in. It is not particularly focussed on just the one thing, or just client, or just server. It's
+an all I make in one mod. I may release (or will have, have or had released) various "light" mods later,
+when I get there (or got there). Generic time independent documentation is difficult. Although not half as difficult
+as mass independent physics.
+
+I couldn't decide a name and so `thing` came to my mined. I hope `Mojang` doesn't mined. Ah, the jokes!
 
 ## Features
 
+I have split the features into client, server and general as any good mod should. As we all know the server
+can't use the client parts, as well, it's the server. The list will expand as `thing`s get done.
+
+### General
+
 * Some convenience documentation for general modding
-* Some mod lists to maybe work as a modpack test bench
-* The `Suspicious Substance` (reduce, reuse, recycle)
-* **Some** chat encryption (client), MiniMessage (client) and `op` level marking (server)
-* Craftable name tag data generation shaped recipe similar to [`craftable-nametag`](https://modrinth.com/datapack/craftable-nametag) using copper,
-string and paper 
+* Some mod lists of a "modpack" test bench
+
+### Client
+
+* **Some** chat encryption (hotkey `R`), but only "regular" chat messages, not PM or other chat formats
+  * Designed for creating a server watershed of "key" based "channels"
+* [`MiniMessage`](https://placeholders.pb4.eu/user/text-format/) format chat
+* `Component.translatable` types prefixed in chat (hotkey `Ỳ`)
+* A [`modmenu`](https://modrinth.com/mod/modmenu) configuration menu if, as most do, when [`modmenu`](https://modrinth.com/mod/modmenu) (optional) and [`cloth-config`](https://modrinth.com/mod/cloth-config) are installed
+
+### Server
+
+* The `Suspicious Substance` (reduce, reuse, recycle) and `Suspicious Dirt`
+* All `/op` levels get colored and styled chat marking
+* Craftable name tag shaped recipe similar to [`craftable-nametag`](https://modrinth.com/datapack/craftable-nametag) using a copper ingot instead of an iron ingot,
+with some string and paper
+
 ---
 ## Easy Development
 
@@ -60,7 +84,9 @@ So yes, the correct working directory for `Data Generation` is `run/`, as Minecr
 It must be noted that the `Data Generation` run configuration is not mod specific. It may cause issues if your
 test bench of other mods have their own `Data Generation` as it doesn't appear to have definite order, and ALL
 generation tasks from all mods are done, with each thinking it is the one true mod of the datapack gods.
+
 ---
+
 ## Utility or Dependency Mods
 
 Here are some other mods used while developing `thing` which also helps with not duplicating features and with
@@ -100,7 +126,9 @@ guy. I'd likely use such a thing for some mod AI experimentation anyway.
 * [`locator-heads`](https://modrinth.com/mod/locator-heads) - Nice for online play
   * Disabled in build due to a "competing" `Data Generation` run "deleting" the generated files
 * [`NoChatReports`](https://modrinth.com/mod/no-chat-reports) - For controversial chat reporting fixes (Adults assumed)
+
 ---
+
 ## Other Useful Links
 
 ### Project Related
