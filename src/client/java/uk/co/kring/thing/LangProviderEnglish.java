@@ -6,7 +6,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.ItemLike;
 import java.util.concurrent.CompletableFuture;
 
-// Section Marker § for formatting codes allowed
+// Section Marker § for formatting codes allowed -- Yellow Alert §6 shout out to the Aldgate East ASS Freedom peeps
 // JSON may have some style keys on some resources
 // colours before formatting
 // 0-9a-f hex in colour nibble <bright><red><green><blue>

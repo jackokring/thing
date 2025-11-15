@@ -10,8 +10,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.message.v1.ServerMessageDecoratorEvent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -37,6 +36,63 @@ public class Thing implements ModInitializer {
         if(server == null) return in;
         // Server side replacements (global context)
         return Placeholders.parseText(in, PlaceholderContext.of(server));
+    }
+
+    static class Section {
+        int color = -1;
+        boolean bold = false;
+        boolean underline = false;
+        boolean obfuscated = false;
+        boolean strikethrough = false;
+        boolean italic = false;
+    }
+
+    // parse section marker strings into MutableComponents
+    // maintaining accumulated Style between parts following on
+    // implements a simple replace "%s" with mechanism
+    // an initial Style accumulator maybe supplied
+    // .getString() ?
+    static MutableComponent parseStringSection(String s) {
+        return parseStringSection(s, Style.EMPTY);
+    }
+
+    static MutableComponent parseStringSection(String s, Style acc) {
+        return parseStringSection(s, acc, null);
+    }
+
+    static MutableComponent parseStringSection(String s, String repWith) {
+        return parseStringSection(s, Style.EMPTY, repWith);
+    }
+
+    static MutableComponent parseStringSection(String s, Style acc, String repWith) {
+        if(repWith != null) {
+            MutableComponent rep = parseStringSection(repWith);
+            String[] parts = s.split("%s");// format
+            MutableComponent out = parseStringSection(parts[0], acc);
+            int i = 1;
+            while(i < parts.length) {
+                out.append(rep);
+                MutableComponent mc = parseStringSection(parts[i], acc);
+                out.append(mc);
+                i++;
+            }
+            return out;
+        }
+        // a rough non-robust parse
+        String[] p = s.split("§");
+        acc = acc == null ? Style.EMPTY : acc;
+        MutableComponent out = Component.literal(p[0]).withStyle(acc);
+        int i = 1;
+        while(i < p.length) {
+            String x = p[i];
+            char code = x.charAt(0);
+            MutableComponent c = Component.literal(x.substring(1));
+            ChatFormatting f = ChatFormatting.getByCode(code);
+            acc = f == null ? acc : acc.applyFormat(f);
+            i++;
+            out = out.append(c.withStyle(acc));
+        }
+        return out;
     }
 
     static Component usePlaceholders(Component in, ServerPlayer serverPlayer) {
