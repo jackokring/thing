@@ -74,10 +74,10 @@ public class ThingClient implements ClientModInitializer {
     }
 
     static KeyMapping keyBinding_R;
-    static final Holder<Boolean> held_R = new Holder<Boolean>(false);
+    static final Holder<Boolean> held_R = new Holder<>(false);
 
     static KeyMapping keyBinding_Y;
-    static final Holder<Boolean> held_Y = new Holder<Boolean>(false);
+    static final Holder<Boolean> held_Y = new Holder<>(false);
 
 	@Override
 	public void onInitializeClient() {
@@ -124,6 +124,16 @@ public class ThingClient implements ClientModInitializer {
                 GLFW.GLFW_KEY_Y, // The keycode of the key
                 KeyMapping.Category.MISC // The category of the key
         ));
+
+        // KEYS
+        // Free: `0-=uio[]
+        // Free: ghjk;'
+        // Free: zbnm,.
+        // Intl: \#
+        // Used: ry
+        // Other: v (voice chat)
+        // No: Super/Alt/Menu
+        // Maybe: RCtrl/BS/Return
 
         // key actions
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -172,12 +182,12 @@ public class ThingClient implements ClientModInitializer {
     // to be creepy to someone who'd have the key anyway, if it were such as it would've been.
 
     static final String typeKey = getTypeKey("type");// { \"translate\": \"%s\" } -- OK, writes above message type applies to
-    //static final String adminKey = getTypeKey("admin");// [%s: %s]
-    //static final String challengeKey = getTypeKey("advancement.challenge");// %s has completed the challenge %s
-    //static final String goalKey = getTypeKey("advancement.goal");// %s has reached the goal %s
-    //static final String taskKey = getTypeKey("advancement.task");// %s has made the advancement %s
-    //static final String announceKey = getTypeKey("announcement");// [%s] %s
-    //static final String emoteKey = getTypeKey("emote");// * %s %s
+    static final String adminKey = getTypeKey("admin");// [%s: %s]
+    static final String challengeKey = getTypeKey("advancement.challenge");// %s has completed the challenge %s
+    static final String goalKey = getTypeKey("advancement.goal");// %s has reached the goal %s
+    static final String taskKey = getTypeKey("advancement.task");// %s has made the advancement %s
+    static final String announceKey = getTypeKey("announcement");// [%s] %s
+    static final String emoteKey = getTypeKey("emote");// * %s %s
     static final String chatKey = getTypeKey("text");// <%s> %s -- OK
     static final String talkKey = getTypeKey("text.narrate");// %s says %s
     static final String galacticKey = getTypeKey("talk.galactic");// something encrypted

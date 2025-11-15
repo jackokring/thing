@@ -38,15 +38,6 @@ public class Thing implements ModInitializer {
         return Placeholders.parseText(in, PlaceholderContext.of(server));
     }
 
-    static class Section {
-        int color = -1;
-        boolean bold = false;
-        boolean underline = false;
-        boolean obfuscated = false;
-        boolean strikethrough = false;
-        boolean italic = false;
-    }
-
     // parse section marker strings into MutableComponents
     // maintaining accumulated Style between parts following on
     // implements a simple replace "%s" with mechanism
@@ -120,13 +111,13 @@ public class Thing implements ModInitializer {
         ModBlocks.initialize();
 
         CommandRegistrationCallback.EVENT.register(
-                (dispatcher, registryAccess, environment) -> {
+                (dispatcher, registryAccess, environment) ->
             dispatcher.register(
                     Commands.literal("test_command").executes(context -> {
                 context.getSource().sendSuccess(() -> Component.literal("Called /test_command."), false);
                 return Command.SINGLE_SUCCESS;
-            }));
-        });
+            }))
+        );
 
         // register mod placeholders (the literal %arg)
         // lucky that text translation is done client side
