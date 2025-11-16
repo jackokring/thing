@@ -32,44 +32,42 @@ public class Thing implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+    // Use sever side placeholders if needed
     static Component usePlaceholders(Component in, MinecraftServer server) {
         if(server == null) return in;
         // Server side replacements (global context)
         return Placeholders.parseText(in, PlaceholderContext.of(server));
     }
 
-    // parse section marker strings into MutableComponents
+    static Component usePlaceholders(Component in, ServerPlayer serverPlayer) {
+        if(serverPlayer == null) return in;
+        // Server side replacements (single player centric)
+        return Placeholders.parseText(in, PlaceholderContext.of(serverPlayer));
+    }
+
+    static Component usePlaceholders(Component in, Entity entity) {
+        if(entity == null) return in;
+        // Server side replacements (any entity centric)
+        return Placeholders.parseText(in, PlaceholderContext.of(entity));
+    }
+
+    // parse section marker strings into MutableComponent
     // maintaining accumulated Style between parts following on
     // implements a simple replace "%s" with mechanism
     // an initial Style accumulator maybe supplied
-    // .getString() ?
+    // .getString() to get back a string as .toString() is debug
+    // refactored to take Component as replacement for flexibility
+    static MutableComponent parseStringSection(String s, String repWith) {
+        return parseStringSection(s, parseStringSection(repWith))  ;
+    }
+
     static MutableComponent parseStringSection(String s) {
         return parseStringSection(s, Style.EMPTY);
     }
 
     static MutableComponent parseStringSection(String s, Style acc) {
-        return parseStringSection(s, acc, null);
-    }
-
-    static MutableComponent parseStringSection(String s, String repWith) {
-        return parseStringSection(s, Style.EMPTY, repWith);
-    }
-
-    static MutableComponent parseStringSection(String s, Style acc, String repWith) {
-        if(repWith != null) {
-            MutableComponent rep = parseStringSection(repWith);
-            String[] parts = s.split("%s");// format
-            MutableComponent out = parseStringSection(parts[0], acc);
-            int i = 1;
-            while(i < parts.length) {
-                out.append(rep);
-                MutableComponent mc = parseStringSection(parts[i], acc);
-                out.append(mc);
-                i++;
-            }
-            return out;
-        }
         // a rough non-robust parse
+        if(s == null) return Component.empty();
         String[] p = s.split("§");
         acc = acc == null ? Style.EMPTY : acc;
         MutableComponent out = Component.literal(p[0]).withStyle(acc);
@@ -86,18 +84,26 @@ public class Thing implements ModInitializer {
         return out;
     }
 
-    static Component usePlaceholders(Component in, ServerPlayer serverPlayer) {
-        if(serverPlayer == null) return in;
-        // Server side replacements (single player centric)
-        return Placeholders.parseText(in, PlaceholderContext.of(serverPlayer));
+    static MutableComponent parseStringSection(String s, Component repWith) {
+        return parseStringSection(s, Style.EMPTY, repWith);
     }
 
-    static Component usePlaceholders(Component in, Entity entity) {
-        if(entity == null) return in;
-        // Server side replacements (any entity centric)
-        return Placeholders.parseText(in, PlaceholderContext.of(entity));
+    static MutableComponent parseStringSection(String s, Style acc, Component repWith) {
+        if(s == null) return Component.empty();
+        repWith = repWith != null ? repWith : Component.empty();
+        String[] parts = s.split("%s");// format
+        MutableComponent out = parseStringSection(parts[0], acc);
+        int i = 1;
+        while(i < parts.length) {
+            out.append(repWith);
+            MutableComponent mc = parseStringSection(parts[i], acc);
+            out.append(mc);
+            i++;
+        }
+        return out;
     }
 
+    // useful styling method
     static MutableComponent withColorBold(MutableComponent message, ChatFormatting color, boolean bold) {
         return message.withStyle(style -> style.withColor(color).withBold(bold));
     }
@@ -110,6 +116,7 @@ public class Thing implements ModInitializer {
         ModItems.initialize();
         ModBlocks.initialize();
 
+        // commands
         CommandRegistrationCallback.EVENT.register(
                 (dispatcher, registryAccess, environment) ->
             dispatcher.register(

@@ -41,13 +41,15 @@ import java.util.HashMap;
 
 public class ThingClient implements ClientModInitializer {
 
+    // tooltip naming assist
     static String tooltipKey(ItemLike item) {
         return item.asItem().getDescriptionId() + ".tooltip";
     }
 
-    static String keyName(String name) { return "key." + Thing.MOD_ID + "." + name; }
-
+    // config container static
     static ModConfig CONFIG;
+
+    // encrypted chat static data and methods
     static SecretKey KEY;
     static byte[] SALT = Thing.MOD_ID.getBytes();
 
@@ -58,6 +60,9 @@ public class ThingClient implements ClientModInitializer {
         KeySpec spec = new PBEKeySpec(password, SALT, 65536, 256);
         KEY = new SecretKeySpec(factory.generateSecret(spec).getEncoded(), "AES");
     }
+
+    // key bind assistance methods
+    static String keyName(String name) { return "key." + Thing.MOD_ID + "." + name; }
 
     static class Holder<T> {
         public Holder(T in) {
@@ -82,9 +87,11 @@ public class ThingClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
         // decide any tool tip types for things
+        // this is for the simple registration of a tip per item or block item
         tipSimple(ModItems.SUSPICIOUS_SUBSTANCE);
 
-		// This entrypoint is suitable for setting up client-specific logic, such as rendering.
+		// This entrypoint is suitable for setting up client-specific logic, such as rendering
+        // the tooltip entry callback for adding in any registered tooltips
         ItemTooltipCallback.EVENT.register((itemStack, tooltipContext,
                                             tooltipType, list) -> {
             MutableComponent tip = tipMap.get(itemStack.getItem());
@@ -112,7 +119,7 @@ public class ThingClient implements ClientModInitializer {
             ClientSendMessageEvents.MODIFY_CHAT.register(this::encryptChatMessage);
         });
 
-        // key binds
+        // key binds for all interactivity
         keyBinding_R = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 keyName("spook"), // The translation key of the keybinding's name
                 //InputConstants.Type.KEYSYM, // The type of the keybinding, KEYSYM for keyboard, MOUSE for mouse.
@@ -129,6 +136,7 @@ public class ThingClient implements ClientModInitializer {
         // Free: `0-=uio[]
         // Free: ghjk;'
         // Free: zbnm,.
+        // Fn Free: 8 9 10 12
         // Intl: \#
         // Used: ry
         // Other: v (voice chat)
@@ -154,18 +162,23 @@ public class ThingClient implements ClientModInitializer {
         });
     }
 
+    // tooltip optimizer for speed with large number of tips
     HashMap<ItemLike, MutableComponent> tipMap = new HashMap<>();
 
+    // the simple static tooltip kind
     void tipSimple(ItemLike is) {
         tipMap.put(is, Component.translatable(tooltipKey(is)));
     }
 
+    // MiniMessage to formatted converter
     // argument wrapper is ':<>% ' for any of special 5 characters in arg
     // \< is tag as literal text
     static String useSimpleText(String in) {
         in = in.replaceAll(ChatFormatting.PREFIX_CODE + ".", "");
         return TagParser.SIMPLIFIED_TEXT_FORMAT_SAFE.parseNode(in).toText().getString();
     }
+
+    // basic chat crypto channels selected by key with suitable intercept options
 
     static final String hidden = ChatFormatting.PREFIX_CODE + "k";
 
@@ -176,6 +189,7 @@ public class ThingClient implements ClientModInitializer {
     static String getTypeKey(String type) {
         return "chat.type." + type;
     }
+
     // basic chat keys
     // N.B. only public simple chatting is encrypted. PMs are "private" and hence not of encrypted need beyond
     // gaming provision. Generally you'd assume it's more of a public watershed technology and NOT a reason
