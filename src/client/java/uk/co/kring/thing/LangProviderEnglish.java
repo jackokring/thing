@@ -49,6 +49,13 @@ class LangProviderEnglish extends FabricLanguageProvider {
         builder.add(ThingClient.keyName(key), translation);
     }
 
+    void generatePotion(TranslationBuilder builder, String key, boolean withLong,  String translation) {
+        builder.add("item.minecraft.tipped_arrow.effect." + key, "Arrow of " + translation);
+        builder.add("item.minecraft.lingering_potion.effect." + key, "Lingering Potion of " + translation);
+        builder.add("item.minecraft.splash_potion.effect." + key, "Splash Potion of " + translation);
+        if(withLong) generatePotion(builder, "long_" + key, false, translation);
+    }
+
     @Override
     public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder builder) {
         // chat provider type debugger on game messages
@@ -81,5 +88,8 @@ class LangProviderEnglish extends FabricLanguageProvider {
         // keyBinds
         generateKeyMapping(builder, "spook", "Encrypt Chat Toggle");
         generateKeyMapping(builder, "types", "Show Type Prefix Toggle");
+
+        // potions
+        generatePotion(builder, "test", true, "Test");
     }
 }
