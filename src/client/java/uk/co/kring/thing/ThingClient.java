@@ -40,12 +40,6 @@ import java.util.Base64;
 import java.util.HashMap;
 
 public class ThingClient implements ClientModInitializer {
-
-    // tooltip naming assist
-    static String tooltipKey(ItemLike item) {
-        return item.asItem().getDescriptionId() + ".tooltip";
-    }
-
     // config container static
     static ModConfig CONFIG;
 
@@ -84,12 +78,8 @@ public class ThingClient implements ClientModInitializer {
     static KeyMapping keyBinding_Y;
     static final Holder<Boolean> held_Y = new Holder<>(false);
 
-	@Override
+    @Override
 	public void onInitializeClient() {
-        // decide any tool tip types for things
-        // this is for the simple registration of a tip per item or block item
-        tipSimple(ModItems.SUSPICIOUS_SUBSTANCE);
-
 		// This entrypoint is suitable for setting up client-specific logic, such as rendering
         // the tooltip entry callback for adding in any registered tooltips
         ItemTooltipCallback.EVENT.register((itemStack, tooltipContext,
@@ -160,6 +150,15 @@ public class ThingClient implements ClientModInitializer {
                 // types in chat as prefix messages
             });
         });
+
+        // decide any tool tip types for things
+        // this is for the simple registration of a tip per item or block item
+        tipSimple(ModItems.SUSPICIOUS_SUBSTANCE);
+    }
+
+    // tooltip naming assist
+    static String tooltipKey(ItemLike item) {
+        return item.asItem().getDescriptionId() + ".tooltip";
     }
 
     // tooltip optimizer for speed with large number of tips
