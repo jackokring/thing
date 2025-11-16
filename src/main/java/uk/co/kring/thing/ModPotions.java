@@ -14,43 +14,45 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 
 class ModPotions {
-    static Potion make(String name, Holder<MobEffect> effect, boolean redstone) {
-        return Registry.register(
+    static Holder<Potion> make(String name, Holder<MobEffect> effect, boolean redstone) {
+        return BuiltInRegistries.POTION.wrapAsHolder(Registry.register(
                 BuiltInRegistries.POTION,
                 Thing.identify(name),
                 new Potion(name,
                         new MobEffectInstance(
                                 effect,
                                 redstone ? 9600 : 3600,
-                                0)));
+                                0))));
     }
 
-    static void registerPair(String name, Holder<MobEffect> effect, Holder<Potion> input, ItemLike add) {
-        Holder<Potion> wrap = BuiltInRegistries.POTION.wrapAsHolder(make(name, effect, false));
+    static void regHelper(Holder<Potion> p, ItemLike i, Holder<Potion> q) {
         FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> {
             builder.registerPotionRecipe(
                     // Input potion.
-                    input,
+                    p,
                     // Ingredient
-                    Ingredient.of(add),
+                    Ingredient.of(i),
                     // Output potion.
-                    wrap
+                    q
             );
         });
-        Holder<Potion> wrapLong = BuiltInRegistries.POTION.wrapAsHolder(make("long_" + name, effect, true));
-        FabricBrewingRecipeRegistryBuilder.BUILD.register(builder -> {
-            builder.registerPotionRecipe(
-                    // Input potion.
-                    wrap,
-                    // Ingredient
-                    Ingredient.of(Items.REDSTONE),
-                    // Output potion.
-                    wrapLong
-            );
-        });
+    }
+
+    static Holder<Potion> registerPair(String name, Holder<MobEffect> effect,
+                                       Holder<Potion> input, ItemLike add, boolean redstone) {
+        Holder<Potion> wrap = make(name, effect, false);
+        regHelper(input, add, wrap);
+        if(!redstone) return wrap;// no long duration ...
+        Holder<Potion> wrapLong = make("long_" + name, effect, true);
+        regHelper(wrap, Items.REDSTONE, wrapLong);
+        return wrap;//for further brewing
     }
 
     static void initialize() {
-        registerPair("test", MobEffects.POISON, Potions.WATER, Items.POTATO);
+        // can use the return as another input
+        // glowstone basis
+        // leave mundane as failed
+        // fermented spider eye as corrupt
+        registerPair("test", MobEffects.POISON, Potions.THICK, Items.POTATO, true);
     }
 }
