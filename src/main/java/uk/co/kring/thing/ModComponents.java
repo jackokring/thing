@@ -20,13 +20,9 @@ public class ModComponents {
         ).apply(builder, BaseDataComponent::new);
     });
 
-    static final DataComponentType<BaseDataComponent> BASE_COMPONENT_TYPE = Registry.register(
+    static final DataComponentType<BaseDataComponent> BASE_COMPONENT = Registry.register(
             BuiltInRegistries.DATA_COMPONENT_TYPE,
             Thing.identify("base_component"),
             DataComponentType.<BaseDataComponent>builder().persistent(CODEC).build()
     );
-
-    protected static void initialize() {
-
-    }
 }

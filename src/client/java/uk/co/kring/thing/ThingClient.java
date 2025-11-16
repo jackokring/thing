@@ -19,6 +19,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.contents.TranslatableContents;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,6 +39,7 @@ import java.security.spec.KeySpec;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.function.Function;
 
 public class ThingClient implements ClientModInitializer {
     // config container static
@@ -84,7 +86,8 @@ public class ThingClient implements ClientModInitializer {
         // the tooltip entry callback for adding in any registered tooltips
         ItemTooltipCallback.EVENT.register((itemStack, tooltipContext,
                                             tooltipType, list) -> {
-            MutableComponent tip = tipMap.get(itemStack.getItem());
+            // allow ItemStack based display .get(ModComponents.BASE_COMPONENT) ...
+            MutableComponent tip = tipMap.get(itemStack.getItem()).apply(itemStack);
             if(tip != null)
                 list.add(tip);
         });
@@ -151,6 +154,7 @@ public class ThingClient implements ClientModInitializer {
             });
         });
 
+        // WARNING: CLIENT SIDE ONLY
         // decide any tool tip types for things
         // this is for the simple registration of a tip per item or block item
         tipSimple(ModItems.SUSPICIOUS_SUBSTANCE);
@@ -162,11 +166,22 @@ public class ThingClient implements ClientModInitializer {
     }
 
     // tooltip optimizer for speed with large number of tips
-    HashMap<ItemLike, MutableComponent> tipMap = new HashMap<>();
+    HashMap<ItemLike, Function<ItemStack, MutableComponent>> tipMap = new HashMap<>();
 
     // the simple static tooltip kind
     void tipSimple(ItemLike is) {
-        tipMap.put(is, Component.translatable(tooltipKey(is)));
+        tipMap.put(is, (stack) -> Component.translatable(tooltipKey(is)));
+    }
+
+    // kind of a template for tool tipping
+    void tipBaseComponent(ItemLike is) {
+        tipMap.put(is, (stack) -> {
+            ModComponents.BaseDataComponent bc = stack.get(ModComponents.BASE_COMPONENT);
+            if(bc != null) {
+                return Component.translatable(tooltipKey(is), bc.version());
+            }
+            return Component.empty();
+        });
     }
 
     // MiniMessage to formatted converter

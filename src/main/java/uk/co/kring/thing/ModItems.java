@@ -33,6 +33,9 @@ class ModItems {
             "suspicious_substance", Item::new, new Item.Properties().food(EDIBLE, OH_MY_TUMMY));
 
     static void initialize() {
+        // do blocks to add them abilities here
+        ModBlocks.initialize();
+
         // Just say no to custom item groups as the botchy big G says
         compostAndFuel(SUSPICIOUS_SUBSTANCE, 0.1f, 5, CreativeModeTabs.INGREDIENTS);
         compostAndFuel(ModBlocks.SUSPICIOUS_DIRT, 0.1f * 9, 5 * 9, CreativeModeTabs.NATURAL_BLOCKS);

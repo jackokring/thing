@@ -19,7 +19,7 @@ class ModBlocks {
     static final Block SUSPICIOUS_DIRT = register("suspicious_dirt", Block::new, GRASS);
 
     static void initialize() {
-
+        // give a block item some item values for composting and fuel in ModItems
     }
 
     static Block register(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties settings) {
