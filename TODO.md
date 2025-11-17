@@ -9,8 +9,8 @@
 ## Things
 
 * **E** - Advancement Data Generation / Custom Background
-* **E** - Potions / Effects
-* **T** - Enchantment
+* **E** - Potions / Effects / Custom Effects
+* **E** - Enchantment Data Generation / Custom Effects
 * **T** - Mixin Enderman holding blocks randomizer tick based?
 * **T** - Copper name tag "rusty" nicknamer?
 * **T** - Entities / Block Entities
