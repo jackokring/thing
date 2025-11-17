@@ -114,7 +114,9 @@ public class Thing implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
         ModItems.initialize();// calls blocks
+        ModMobEffects.initialize();
         ModPotions.initialize();
+        ModEnchantmentEffects.initialize();
 
         // commands
         CommandRegistrationCallback.EVENT.register(

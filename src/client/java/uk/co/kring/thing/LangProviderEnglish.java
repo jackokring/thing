@@ -3,6 +3,10 @@ package uk.co.kring.thing;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.ItemLike;
 import java.util.concurrent.CompletableFuture;
 
@@ -22,6 +26,7 @@ import java.util.concurrent.CompletableFuture;
 // s-z
 
 class LangProviderEnglish extends FabricLanguageProvider {
+    // refactor by builder.add()
     protected LangProviderEnglish(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         // Specifying en_us is optional, as it's the default language code
         super(dataOutput, "en_us", registryLookup);
@@ -56,12 +61,16 @@ class LangProviderEnglish extends FabricLanguageProvider {
         if(withLong) generatePotion(builder, "long_" + key, false, translation);
     }
 
-    void generateSoundSubtitle(TranslationBuilder builder, String key, String translation) {
-        builder.add("sound." + Thing.MOD_ID + "." + key, translation);
+    void generateSoundSubtitle(TranslationBuilder builder, SoundEvent sound, String translation) {
+        builder.add(sound, translation);
     }
 
-    void generateEnchantment(TranslationBuilder builder, String key, String translation) {
-        builder.add("enchantment." + Thing.MOD_ID + "." + key, translation);
+    void generateEnchantment(TranslationBuilder builder, ResourceKey<Enchantment> enchant, String translation) {
+        builder.addEnchantment(enchant, translation);
+    }
+
+    void generatePotionEffect(TranslationBuilder builder, MobEffect effect, String translation) {
+        builder.add(effect, translation);
     }
 
     @Override
