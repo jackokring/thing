@@ -127,8 +127,8 @@ public class ThingClient implements ClientModInitializer {
 
         // KEYS
         // Free: `0-=uio[]
-        // Free: ghjk;'
-        // Free: zbnm,.
+        // Free: gjk;'
+        // Free: zb,.
         // Fn Free: 8 9 10 12
         // Intl: \#
         // Used: ry
