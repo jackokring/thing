@@ -56,6 +56,14 @@ class LangProviderEnglish extends FabricLanguageProvider {
         if(withLong) generatePotion(builder, "long_" + key, false, translation);
     }
 
+    void generateSoundSubtitle(TranslationBuilder builder, String key, String translation) {
+        builder.add("sound." + Thing.MOD_ID + "." + key, translation);
+    }
+
+    void generateEnchantment(TranslationBuilder builder, String key, String translation) {
+        builder.add("enchantment." + Thing.MOD_ID + "." + key, translation);
+    }
+
     @Override
     public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder builder) {
         // chat provider type debugger on game messages
