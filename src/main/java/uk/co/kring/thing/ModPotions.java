@@ -14,7 +14,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 
 class ModPotions {
-    static Holder<Potion> make(String name, Holder<MobEffect> effect, boolean redstone) {
+    static Holder<Potion> make(String name, Holder<MobEffect> effect, boolean redstone, boolean glowstone) {
         return BuiltInRegistries.POTION.wrapAsHolder(Registry.register(
                 BuiltInRegistries.POTION,
                 Thing.identify(name),
@@ -22,7 +22,7 @@ class ModPotions {
                         new MobEffectInstance(
                                 effect,
                                 redstone ? 9600 : 3600,
-                                0))));
+                                glowstone ? 1 : 0))));
     }
 
     static void regHelper(Holder<Potion> p, ItemLike i, Holder<Potion> q) {
@@ -39,12 +39,17 @@ class ModPotions {
     }
 
     static Holder<Potion> registerPair(String name, Holder<MobEffect> effect,
-                                       Holder<Potion> input, ItemLike add, boolean redstone) {
-        Holder<Potion> wrap = make(name, effect, false);
+                                       Holder<Potion> input, ItemLike add, boolean redstone, boolean glowstone) {
+        Holder<Potion> wrap = make(name, effect, false, false);
         regHelper(input, add, wrap);
-        if(!redstone) return wrap;// no long duration ...
-        Holder<Potion> wrapLong = make("long_" + name, effect, true);
-        regHelper(wrap, Items.REDSTONE, wrapLong);
+        if(redstone) { // long duration ...
+            Holder<Potion> wrapLong = make("long_" + name, effect, true, false);
+            regHelper(wrap, Items.REDSTONE, wrapLong);
+        }
+        if(glowstone) { // strong power ...
+            Holder<Potion> wrapLong = make("strong_" + name, effect, false, true);
+            regHelper(wrap, Items.REDSTONE, wrapLong);
+        }
         return wrap;//for further brewing
     }
 
@@ -53,6 +58,6 @@ class ModPotions {
         // glowstone basis
         // leave mundane as failed
         // fermented spider eye as corrupt
-        registerPair("test", MobEffects.POISON, Potions.THICK, Items.POTATO, true);
+        registerPair("test", MobEffects.POISON, Potions.THICK, Items.POTATO, true, true);
     }
 }
