@@ -4,19 +4,26 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.network.Filterable;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.WrittenBookItem;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
+import net.minecraft.world.item.component.WrittenBookContent;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.ItemLike;
+
+import java.util.ArrayList;
 import java.util.function.Function;
 
 class ModItems {
@@ -32,6 +39,16 @@ class ModItems {
     static final Item SUSPICIOUS_SUBSTANCE = register(
             "suspicious_substance", Item::new, new Item.Properties().food(EDIBLE, OH_MY_TUMMY));
 
+    // a book maybe?
+    static final Item THE_BOOK = register("book", WrittenBookItem::new, new Item.Properties().stacksTo(1)
+            .component(DataComponents.WRITTEN_BOOK_CONTENT, new WrittenBookContent(
+                    Filterable.passThrough("Book"),
+                    "Me", 0,
+                    // pages
+                    new ArrayList<Filterable<Component>>(),
+                    true
+            )));
+
     static void initialize() {
         // do blocks to add them abilities here
         ModBlocks.initialize();
@@ -39,6 +56,8 @@ class ModItems {
         // Just say no to custom item groups as the botchy big G says
         compostAndFuel(SUSPICIOUS_SUBSTANCE, 0.1f, 5, CreativeModeTabs.INGREDIENTS);
         compostAndFuel(ModBlocks.SUSPICIOUS_DIRT, 0.1f * 9, 5 * 9, CreativeModeTabs.NATURAL_BLOCKS);
+        // a burnable read
+        compostAndFuel(THE_BOOK, 1f, 30, CreativeModeTabs.TOOLS_AND_UTILITIES);
     }
 
     static Item register(String name, Function<Item.Properties, Item> itemFactory, Item.Properties settings) {
