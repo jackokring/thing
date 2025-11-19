@@ -21,7 +21,8 @@ class ModPotions {
                 new Potion(name,
                         new MobEffectInstance(
                                 effect,
-                                redstone ? 9600 : 3600,
+                                // balancing, although 4800 isn't naturally produced
+                                redstone ? (glowstone ? 4800 : 9600) : (glowstone ? 1800 : 3600),
                                 glowstone ? 1 : 0))));
     }
 
@@ -48,7 +49,7 @@ class ModPotions {
         }
         if(glowstone) { // strong power ...
             Holder<Potion> wrapLong = make("strong_" + name, effect, false, true);
-            regHelper(wrap, Items.REDSTONE, wrapLong);
+            regHelper(wrap, Items.GLOWSTONE_DUST, wrapLong);
         }
         return wrap;//for further brewing
     }
