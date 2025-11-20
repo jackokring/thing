@@ -13,10 +13,7 @@ import net.minecraft.server.network.Filterable;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.WrittenBookItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.component.WrittenBookContent;
@@ -54,10 +51,14 @@ class ModItems {
         ModBlocks.initialize();
 
         // Just say no to custom item groups as the botchy big G says
-        compostAndFuel(SUSPICIOUS_SUBSTANCE, 0.1f, 5, CreativeModeTabs.INGREDIENTS);
+        compostAndFuel(SUSPICIOUS_SUBSTANCE, 0.1f, 5);
+        // placed on natural block creative
         compostAndFuel(ModBlocks.SUSPICIOUS_DIRT, 0.1f * 9, 5 * 9, CreativeModeTabs.NATURAL_BLOCKS);
-        // a burnable read
-        compostAndFuel(THE_BOOK, 1f, 30, CreativeModeTabs.TOOLS_AND_UTILITIES);
+        // a burnable read placed after writable book on tools creative
+        compostAndFuel(THE_BOOK, 1f, 30, CreativeModeTabs.TOOLS_AND_UTILITIES, Items.WRITABLE_BOOK);
+
+        // add any tooltips via lang fine and onInitializeClient() in ThingClient
+        // as they are client side and not server/common code
     }
 
     static Item register(String name, Function<Item.Properties, Item> itemFactory, Item.Properties settings) {
@@ -73,9 +74,25 @@ class ModItems {
         return item;
     }
 
+    // recycling of mod items
     static void compostAndFuel(ItemLike item,
-                                      float compostChance, int fuelSeconds, ResourceKey<CreativeModeTab> whereGUI) {
+                               float compostChance, int fuelSeconds) {
+        compostAndFuel(item, compostChance, fuelSeconds, CreativeModeTabs.INGREDIENTS);
+    }
+
+    static void compostAndFuel(ItemLike item,
+                               float compostChance, int fuelSeconds, ResourceKey<CreativeModeTab> whereGUI) {
+        compostAndFuel(item, compostChance, fuelSeconds, whereGUI, null);
+    }
+
+    static void compostAndFuel(ItemLike item,
+                                      float compostChance, int fuelSeconds,
+                               ResourceKey<CreativeModeTab> whereGUI, ItemLike after) {
         ItemGroupEvents.modifyEntriesEvent(whereGUI).register(group -> {
+            if(after != null && group.getDisplayStacks().contains(after)) {
+                group.addAfter(after, item);
+                return;
+            }
             group.accept(item);
         });
         if(compostChance > 0.0f)
