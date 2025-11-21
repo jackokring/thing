@@ -7,9 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.network.Filterable;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -20,7 +18,6 @@ import net.minecraft.world.item.component.WrittenBookContent;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 import net.minecraft.world.level.ItemLike;
 
-import java.util.ArrayList;
 import java.util.function.Function;
 
 class ModItems {
@@ -39,10 +36,11 @@ class ModItems {
     // a book maybe?
     static final Item THE_BOOK = register("book", WrittenBookItem::new, new Item.Properties().stacksTo(1)
             .component(DataComponents.WRITTEN_BOOK_CONTENT, new WrittenBookContent(
-                    Filterable.passThrough("Book"),
-                    "Me", 0,
+                    ModPages.getTitle(),
+                    ModPages.getAuthor(),
+                    0,
                     // pages
-                    new ArrayList<Filterable<Component>>(),
+                    ModPages.getPages(),
                     true
             )));
 

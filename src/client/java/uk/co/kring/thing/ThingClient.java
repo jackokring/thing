@@ -157,6 +157,7 @@ public class ThingClient implements ClientModInitializer {
         // WARNING: CLIENT SIDE ONLY
         // decide any tool tip types for things
         // this is for the simple registration of a tip per item or block item
+        // is simple tooltip automatic?
         tipSimple(ModBlocks.SUSPICIOUS_DIRT);
         tipSimple(ModItems.SUSPICIOUS_SUBSTANCE);
         tipSimple(ModItems.THE_BOOK);
