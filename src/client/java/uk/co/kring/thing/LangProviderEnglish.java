@@ -3,6 +3,7 @@ package uk.co.kring.thing;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
@@ -37,6 +38,16 @@ class LangProviderEnglish extends FabricLanguageProvider {
         builder.add(item.asItem().getDescriptionId(), translation);
         if(tooltip != null)
             builder.add(ThingClient.tooltipKey(item), tooltip);
+    }
+
+    void generateItem(TranslationBuilder builder, ItemLike item, String translation) {
+        generateItem(builder, item, translation, null);
+    }
+
+    void generateItem(TranslationBuilder builder, ItemLike item, String translation, String tooltip, String extended) {
+        generateItem(builder, item, translation, tooltip);
+        if(extended != null)
+            builder.add(ThingClient.extendedTooltipKey(item), extended);
     }
 
     void generateConfig(TranslationBuilder builder, String key,  String translation, String tooltip) {

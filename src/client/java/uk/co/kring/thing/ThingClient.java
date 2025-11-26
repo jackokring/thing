@@ -158,9 +158,7 @@ public class ThingClient implements ClientModInitializer {
         // decide any tool tip types for things
         // this is for the simple registration of a tip per item or block item
         // is simple tooltip automatic?
-        //tipSimple(ModBlocks.SUSPICIOUS_DIRT);
-        //tipSimple(ModItems.SUSPICIOUS_SUBSTANCE);
-        //tipSimple(ModItems.THE_BOOK);
+        // so no needed tipSimple(ModBlocks.SUSPICIOUS_DIRT);
     }
 
     // tooltip naming assist
@@ -168,20 +166,19 @@ public class ThingClient implements ClientModInitializer {
         return item.asItem().getDescriptionId() + ".tooltip";
     }
 
+    static String extendedTooltipKey(ItemLike item) {
+        return item.asItem().getDescriptionId() + ".extended";
+    }
+
     // tooltip optimizer for speed with large number of tips
     HashMap<ItemLike, Function<ItemStack, MutableComponent>> tipMap = new HashMap<>();
-
-    // the simple static tooltip kind
-    /*void tipSimple(ItemLike is) {
-        tipMap.put(is, (stack) -> Component.translatable(tooltipKey(is)));
-    } */
 
     // kind of a template for tool tipping
     void tipBaseComponent(ItemLike is) {
         tipMap.put(is, (stack) -> {
             ModComponents.BaseDataComponent bc = stack.get(ModComponents.BASE_COMPONENT);
             if(bc != null) {
-                return Component.translatable(tooltipKey(is), bc.version());
+                return Component.translatable(extendedTooltipKey(is), bc.version());
             }
             return Component.empty();
         });
