@@ -34,6 +34,8 @@ class ModItems {
             "suspicious_substance", Item::new, new Item.Properties().food(EDIBLE, OH_MY_TUMMY));
 
     // a book maybe?
+    // it must become an ItemStack before application of Enchantments?
+    // seems impossible to obtain Holder from ResourceKey with DataComponents.STORED_ENCHANTMENTS
     static final Item THE_BOOK = register("book", WrittenBookItem::new, new Item.Properties().stacksTo(1)
             .component(DataComponents.WRITTEN_BOOK_CONTENT, new WrittenBookContent(
                     ModPages.getTitle(),
