@@ -14,7 +14,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 
 class ModPotions {
-    static Holder<Potion> make(String name, Holder<MobEffect> effect, boolean redstone, boolean glowstone) {
+    static Holder<Potion> make(String name, Holder<MobEffect> effect, Modify kind) {
+        if(kind == Modify.BOTH) throw new IllegalArgumentException("Making potion kind error");
         return BuiltInRegistries.POTION.wrapAsHolder(Registry.register(
                 BuiltInRegistries.POTION,
                 Thing.identify(name),
@@ -22,8 +23,8 @@ class ModPotions {
                         new MobEffectInstance(
                                 effect,
                                 // balancing, although 4800 isn't naturally produced
-                                redstone ? (glowstone ? 4800 : 9600) : (glowstone ? 1800 : 3600),
-                                glowstone ? 1 : 0))));
+                                kind == Modify.LONGER ? 9600 : (kind == Modify.STRONGER ? 1800 : 3600),
+                                kind == Modify.STRONGER ? 1 : 0))));
     }
 
     static void regHelper(Holder<Potion> p, ItemLike i, Holder<Potion> q) {
@@ -39,16 +40,16 @@ class ModPotions {
         });
     }
 
-    static Holder<Potion> registerPair(String name, Holder<MobEffect> effect,
-                                       Holder<Potion> input, ItemLike add, boolean redstone, boolean glowstone) {
-        Holder<Potion> wrap = make(name, effect, false, false);
+    static Holder<Potion> registerTriad(String name, Holder<MobEffect> effect,
+                                       Holder<Potion> input, ItemLike add, Modify kind) {
+        Holder<Potion> wrap = make(name, effect, Modify.NORMAL);
         regHelper(input, add, wrap);
-        if(redstone) { // long duration ...
-            Holder<Potion> wrapLong = make("long_" + name, effect, true, false);
+        if(kind == Modify.LONGER || kind == Modify.BOTH) { // long duration ...
+            Holder<Potion> wrapLong = make("long_" + name, effect, Modify.LONGER);
             regHelper(wrap, Items.REDSTONE, wrapLong);
         }
-        if(glowstone) { // strong power ...
-            Holder<Potion> wrapLong = make("strong_" + name, effect, false, true);
+        if(kind == Modify.STRONGER || kind == Modify.BOTH) { // strong power ...
+            Holder<Potion> wrapLong = make("strong_" + name, effect, Modify.STRONGER);
             regHelper(wrap, Items.GLOWSTONE_DUST, wrapLong);
         }
         return wrap;//for further brewing
@@ -59,6 +60,13 @@ class ModPotions {
         // glowstone basis
         // leave mundane as failed
         // fermented spider eye as corrupt
-        registerPair("test", MobEffects.POISON, Potions.THICK, Items.POTATO, true, true);
+        registerTriad("test", MobEffects.POISON, Potions.THICK, Items.POTATO, Modify.BOTH);
+    }
+
+    enum Modify {
+        NORMAL,
+        LONGER,
+        STRONGER,
+        BOTH
     }
 }

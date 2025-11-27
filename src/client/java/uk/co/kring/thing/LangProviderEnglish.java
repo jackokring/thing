@@ -65,14 +65,15 @@ class LangProviderEnglish extends FabricLanguageProvider {
         builder.add(ThingClient.keyName(key), translation);
     }
 
-    void generatePotion(TranslationBuilder builder, String key, boolean withLong, boolean withStrong, String translation) {
+    void generatePotion(TranslationBuilder builder, String key, ModPotions.Modify kind, String translation) {
         builder.add("item.minecraft.tipped_arrow.effect." + key, "Arrow of " + translation);
         builder.add("item.minecraft.lingering_potion.effect." + key, "Lingering Potion of " + translation);
         builder.add("item.minecraft.splash_potion.effect." + key, "Splash Potion of " + translation);
         builder.add("item.minecraft.potion.effect." + key, "Potion of " + translation);
-        if(withLong) generatePotion(builder, "long_" + key, false, false, translation);
-        if(withStrong) generatePotion(builder, "strong_" + key, false, false, translation
-        );
+        if(kind == ModPotions.Modify.LONGER || kind == ModPotions.Modify.BOTH)
+            generatePotion(builder, "long_" + key, ModPotions.Modify.NORMAL, translation);
+        if(kind == ModPotions.Modify.STRONGER || kind == ModPotions.Modify.BOTH)
+            generatePotion(builder, "strong_" + key, ModPotions.Modify.NORMAL, translation);
     }
 
     void generateSoundSubtitle(TranslationBuilder builder, SoundEvent sound, String translation) {
@@ -122,6 +123,6 @@ class LangProviderEnglish extends FabricLanguageProvider {
         generateKeyMapping(builder, "types", "Show Type Prefix Toggle");
 
         // potions
-        generatePotion(builder, "test", true, true,"Test");
+        generatePotion(builder, "test", ModPotions.Modify.BOTH,"Test");
     }
 }
