@@ -44,11 +44,11 @@ class ModPotions {
                                        Holder<Potion> input, ItemLike add, Modify kind) {
         Holder<Potion> wrap = make(name, effect, Modify.NORMAL);
         regHelper(input, add, wrap);
-        if(kind == Modify.LONGER || kind == Modify.BOTH) { // long duration ...
+        if(kind.includes(Modify.LONGER)) { // long duration ...
             Holder<Potion> wrapLong = make("long_" + name, effect, Modify.LONGER);
             regHelper(wrap, Items.REDSTONE, wrapLong);
         }
-        if(kind == Modify.STRONGER || kind == Modify.BOTH) { // strong power ...
+        if(kind.includes(Modify.STRONGER)) { // strong power ...
             Holder<Potion> wrapLong = make("strong_" + name, effect, Modify.STRONGER);
             regHelper(wrap, Items.GLOWSTONE_DUST, wrapLong);
         }
@@ -64,9 +64,18 @@ class ModPotions {
     }
 
     enum Modify {
-        NORMAL,
-        LONGER,
-        STRONGER,
-        BOTH
+        NORMAL,// just normal
+        LONGER,// also longer
+        STRONGER,// also stronger
+        BOTH;// all three includes both "regular" modifications
+        boolean includes(Modify thing) {
+            return switch(this) {
+                case NORMAL -> thing == NORMAL;
+                case LONGER -> thing == LONGER || thing == NORMAL;
+                case STRONGER -> thing == STRONGER || thing == NORMAL;
+                case BOTH -> thing == LONGER || thing == STRONGER || thing == NORMAL;
+                //default -> throw new IllegalArgumentException("Making potion kind error");
+            };
+        }
     }
 }

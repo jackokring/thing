@@ -70,9 +70,9 @@ class LangProviderEnglish extends FabricLanguageProvider {
         builder.add("item.minecraft.lingering_potion.effect." + key, "Lingering Potion of " + translation);
         builder.add("item.minecraft.splash_potion.effect." + key, "Splash Potion of " + translation);
         builder.add("item.minecraft.potion.effect." + key, "Potion of " + translation);
-        if(kind == ModPotions.Modify.LONGER || kind == ModPotions.Modify.BOTH)
+        if(kind.includes(ModPotions.Modify.LONGER))
             generatePotion(builder, "long_" + key, ModPotions.Modify.NORMAL, translation);
-        if(kind == ModPotions.Modify.STRONGER || kind == ModPotions.Modify.BOTH)
+        if(kind.includes(ModPotions.Modify.STRONGER))
             generatePotion(builder, "strong_" + key, ModPotions.Modify.NORMAL, translation);
     }
 
