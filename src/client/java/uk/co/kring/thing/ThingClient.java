@@ -87,7 +87,7 @@ public class ThingClient implements ClientModInitializer {
         ItemTooltipCallback.EVENT.register((itemStack, tooltipContext,
                                             tooltipType, list) -> {
             // allow ItemStack based display .get(ModComponents.BASE_COMPONENT) ...
-            MutableComponent tip = tipMap.get(itemStack.getItem()).apply(itemStack);
+            Component tip = tipMap.get(itemStack.getItem()).apply(itemStack);
             if(tip != null)
                 list.add(tip);
         });
@@ -162,23 +162,30 @@ public class ThingClient implements ClientModInitializer {
     }
 
     // tooltip naming assist
-    static String tooltipKey(ItemLike item) {
-        return item.asItem().getDescriptionId() + ".tooltip";
+    static String itemTooltipKey(ItemLike item, String key) {
+        return item.asItem().getDescriptionId() + "." + key;
+    }
+
+    static String dataTooltipKey(String key) {
+        return "itemTooltip." + Thing.MOD_ID + "." + key;
     }
 
     // tooltip optimizer for speed with large number of tips
-    HashMap<ItemLike, Function<ItemStack, MutableComponent>> tipMap = new HashMap<>();
+    HashMap<ItemLike, Function<ItemStack, Component>> tipMap = new HashMap<>();
 
     // kind of a template for tool tipping
+    static final Function<ItemStack, Component> BASE_TOOLTIP = (stack) -> {
+        ModComponents.BaseDataComponent bc = stack.get(ModComponents.BASE_COMPONENT);
+        if(bc != null) {
+            // no need for a closure on specific item
+            // could use stack.asItem as ItemLike
+            return Component.translatable(dataTooltipKey("version"), bc.version());
+        }
+        return Component.empty();
+    };
+
     void tipBaseComponent(ItemLike is) {
-        tipMap.put(is, (stack) -> {
-            ModComponents.BaseDataComponent bc = stack.get(ModComponents.BASE_COMPONENT);
-            if(bc != null) {
-                // no need for a closure on specific item
-                return Component.translatable(tooltipKey(stack.getItem()), bc.version());
-            }
-            return Component.empty();
-        });
+        tipMap.put(is, BASE_TOOLTIP);
     }
 
     // MiniMessage to formatted converter

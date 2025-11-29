@@ -33,16 +33,17 @@ class LangProviderEnglish extends FabricLanguageProvider {
         super(dataOutput, "en_us", registryLookup);
     }
 
-    void generateItem(TranslationBuilder builder, ItemLike item, String translation, String tooltip) {
+    void generateItem(TranslationBuilder builder, ItemLike item, String translation) {
         // automatically does blocks as ItemLike
         builder.add(item.asItem().getDescriptionId(), translation);
-        if(tooltip != null)
-            // extended tooltip description MiniMessage format and %[<index>$]s for string
-            builder.add(ThingClient.tooltipKey(item), ThingClient.useSimpleText(tooltip));
     }
 
-    void generateItem(TranslationBuilder builder, ItemLike item, String translation) {
-        generateItem(builder, item, translation, null);
+    void generateItemTooltip(TranslationBuilder builder, ItemLike item, String key, String translation) {
+        builder.add(item.asItem().getDescriptionId() + "." + key, ThingClient.useSimpleText(translation));
+    }
+
+    void generateDataTooltip(TranslationBuilder builder, String key, String translation) {
+        builder.add("itemTooltip." + Thing.MOD_ID + "." + key, ThingClient.useSimpleText(translation));
     }
 
     void generateConfig(TranslationBuilder builder, String key,  String translation, String tooltip) {
@@ -97,9 +98,10 @@ class LangProviderEnglish extends FabricLanguageProvider {
         builder.add("modmenu.summaryTranslation." + Thing.MOD_ID, "Menu o' mods ye installed matey!");
 
         // Items and Blocks
-        generateItem(builder, ModItems.SUSPICIOUS_SUBSTANCE, "Suspicious Substance", "A powerful substance");
-        generateItem(builder, ModBlocks.SUSPICIOUS_DIRT, "Suspicious Dirt", "Very, very suspicious dirt");
-        generateItem(builder, ModItems.THE_BOOK, "The Book", "A book about the mod");
+        generateItem(builder, ModItems.SUSPICIOUS_SUBSTANCE, "Suspicious Substance");
+        generateItem(builder, ModBlocks.SUSPICIOUS_DIRT, "Suspicious Dirt");
+        generateItem(builder, ModItems.THE_BOOK, "The Book");
+        generateDataTooltip(builder, "version", "Version %s");
 
         // config
         generateConfig(builder, "title", "Thing Settings", null);
