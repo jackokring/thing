@@ -166,10 +166,6 @@ public class ThingClient implements ClientModInitializer {
         return item.asItem().getDescriptionId() + ".tooltip";
     }
 
-    static String extendedTooltipKey(ItemLike item) {
-        return item.asItem().getDescriptionId() + ".extended";
-    }
-
     // tooltip optimizer for speed with large number of tips
     HashMap<ItemLike, Function<ItemStack, MutableComponent>> tipMap = new HashMap<>();
 
@@ -178,7 +174,8 @@ public class ThingClient implements ClientModInitializer {
         tipMap.put(is, (stack) -> {
             ModComponents.BaseDataComponent bc = stack.get(ModComponents.BASE_COMPONENT);
             if(bc != null) {
-                return Component.translatable(extendedTooltipKey(is), bc.version());
+                // no need for a closure on specific item
+                return Component.translatable(tooltipKey(stack.getItem()), bc.version());
             }
             return Component.empty();
         });

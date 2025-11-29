@@ -37,17 +37,12 @@ class LangProviderEnglish extends FabricLanguageProvider {
         // automatically does blocks as ItemLike
         builder.add(item.asItem().getDescriptionId(), translation);
         if(tooltip != null)
-            builder.add(ThingClient.tooltipKey(item), tooltip);
+            // extended tooltip description MiniMessage format and %[<index>$]s for string
+            builder.add(ThingClient.tooltipKey(item), ThingClient.useSimpleText(tooltip));
     }
 
     void generateItem(TranslationBuilder builder, ItemLike item, String translation) {
         generateItem(builder, item, translation, null);
-    }
-
-    void generateItem(TranslationBuilder builder, ItemLike item, String translation, String tooltip, String extended) {
-        generateItem(builder, item, translation, tooltip);
-        if(extended != null)
-            builder.add(ThingClient.extendedTooltipKey(item), extended);
     }
 
     void generateConfig(TranslationBuilder builder, String key,  String translation, String tooltip) {
