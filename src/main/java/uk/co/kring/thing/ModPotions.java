@@ -55,6 +55,10 @@ class ModPotions {
         return wrap;//for further brewing
     }
 
+    static void corrupt(Holder<Potion> given, Holder<Potion> made) {
+        regHelper(given, Items.FERMENTED_SPIDER_EYE, made);
+    }
+
     static void initialize() {
         // can use the return as another input
         // glowstone basis
